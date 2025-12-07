@@ -284,7 +284,7 @@
 
     <include
         android:id="@+id/bottomNavLayout"
-        layout="@layout/bottom_navigation_none"
+        layout="@layout/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent" />

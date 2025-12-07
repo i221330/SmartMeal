@@ -1,5 +1,6 @@
 package com.example.smartmeal
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -66,6 +67,7 @@ class ActivityRecipeDetails : AppCompatActivity() {
 
         initializeViews()
         setupBackButton()
+        setupBottomNavigation()
         loadRecipeDetails()
     }
 
@@ -92,6 +94,47 @@ class ActivityRecipeDetails : AppCompatActivity() {
     private fun setupBackButton() {
         findViewById<View>(R.id.backButton)?.setOnClickListener {
             finish()
+        }
+    }
+
+    private fun setupBottomNavigation() {
+        try {
+            // Home
+            findViewById<View>(R.id.homeNav)?.setOnClickListener {
+                Log.d(TAG, "Home nav clicked")
+                startActivity(Intent(this, ActivityHome::class.java))
+                finish() // Close recipe details
+            }
+
+            // Pantry
+            findViewById<View>(R.id.pantryNav)?.setOnClickListener {
+                Log.d(TAG, "Pantry nav clicked")
+                startActivity(Intent(this, ActivityPantry::class.java))
+                finish()
+            }
+
+            // Meal Planner
+            findViewById<View>(R.id.plannerNav)?.setOnClickListener {
+                Log.d(TAG, "Planner nav clicked")
+                startActivity(Intent(this, ActivityMealPlanner::class.java))
+                finish()
+            }
+
+            // Shopping List
+            findViewById<View>(R.id.shoppingNav)?.setOnClickListener {
+                Log.d(TAG, "Shopping nav clicked")
+                startActivity(Intent(this, ActivityShoppingList::class.java))
+                finish()
+            }
+
+            // Profile
+            findViewById<View>(R.id.profileNav)?.setOnClickListener {
+                Log.d(TAG, "Profile nav clicked")
+                startActivity(Intent(this, ActivityProfile::class.java))
+                finish()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error setting up bottom navigation", e)
         }
     }
 
