@@ -2,10 +2,6 @@
 
 A comprehensive Android application for recipe management, meal planning, pantry tracking, and intelligent shopping list generation.
 
-## Quick Links
-- **Full Documentation**: See [PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)
-- **Backend Setup**: See backend/README.md
-- **API Documentation**: See backend/api/README.md
 
 ## Quick Start
 
@@ -49,8 +45,6 @@ A comprehensive Android application for recipe management, meal planning, pantry
 - **Async**: Kotlin Coroutines + Flow
 - **Backend**: PHP 8.2 + MySQL
 
-## Project Status
-See [PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md) for detailed implementation status and roadmap.
 
 ## License
 Academic Project - Software for Mobile Devices Course
