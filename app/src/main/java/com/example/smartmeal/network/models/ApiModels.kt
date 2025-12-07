@@ -129,10 +129,13 @@ data class ShoppingItemData(
     @SerializedName("item_id") val itemId: String,
     val name: String,
     val quantity: String,
-    @SerializedName("is_completed") val isCompleted: Boolean,
+    @SerializedName("is_completed") val isCompletedInt: Int,  // Backend returns 0 or 1
     val category: String?,
     @SerializedName("last_updated") val lastUpdated: Long
-)
+) {
+    val isCompleted: Boolean
+        get() = isCompletedInt == 1
+}
 
 data class ShoppingItemsResponse(
     val items: List<ShoppingItemData>
