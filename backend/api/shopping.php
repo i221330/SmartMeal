@@ -303,22 +303,58 @@ function moveItemToPantry($db) {
         $shoppingItem = $stmt->fetch(PDO::FETCH_ASSOC);
         $timestamp = round(microtime(true) * 1000);
 
-        // Add to pantry with user-specified quantity
-        $pantryItemId = "pantry_" . $data->user_id . "_" . uniqid();
+        // Check if item already exists in pantry (case-insensitive)
+        $itemNameLower = strtolower(trim($shoppingItem['name']));
+        $checkPantryQuery = "SELECT item_id, quantity FROM pantry_items
+                            WHERE user_id = :user_id
+                            AND LOWER(TRIM(name)) = :name_lower
+                            AND is_deleted = FALSE
+                            LIMIT 1";
+        $checkPantryStmt = $db->prepare($checkPantryQuery);
+        $checkPantryStmt->bindParam(":user_id", $data->user_id);
+        $checkPantryStmt->bindParam(":name_lower", $itemNameLower);
+        $checkPantryStmt->execute();
 
-        $pantryQuery = "INSERT INTO pantry_items
-                       (user_id, item_id, name, quantity, category, last_updated)
-                       VALUES (:user_id, :item_id, :name, :quantity, :category, :timestamp)";
+        $existingPantryItem = $checkPantryStmt->fetch(PDO::FETCH_ASSOC);
 
-        $pantryStmt = $db->prepare($pantryQuery);
-        $pantryStmt->bindParam(":user_id", $data->user_id);
-        $pantryStmt->bindParam(":item_id", $pantryItemId);
-        $pantryStmt->bindParam(":name", $shoppingItem['name']);
-        $pantryStmt->bindParam(":quantity", $data->quantity_bought);
-        $pantryStmt->bindParam(":category", $shoppingItem['category']);
-        $pantryStmt->bindParam(":timestamp", $timestamp);
+        if ($existingPantryItem) {
+            // Item exists in pantry, update quantity by adding
+            $existingQty = parseQuantity($existingPantryItem['quantity']);
+            $newQty = parseQuantity($data->quantity_bought);
 
-        if ($pantryStmt->execute()) {
+            // Add quantities if units match or one is empty
+            if ($existingQty['unit'] === $newQty['unit'] ||
+                empty($existingQty['unit']) ||
+                empty($newQty['unit'])) {
+
+                $totalValue = $existingQty['value'] + $newQty['value'];
+                $unit = $existingQty['unit'] ?: $newQty['unit'];
+                $updatedQuantity = $totalValue . ($unit ? ' ' . $unit : '');
+
+                $updatePantryQuery = "UPDATE pantry_items
+                                     SET quantity = :quantity,
+                                         last_updated = :timestamp
+                                     WHERE item_id = :item_id";
+                $updatePantryStmt = $db->prepare($updatePantryQuery);
+                $updatePantryStmt->bindParam(":quantity", $updatedQuantity);
+                $updatePantryStmt->bindParam(":timestamp", $timestamp);
+                $updatePantryStmt->bindParam(":item_id", $existingPantryItem['item_id']);
+                $updatePantryStmt->execute();
+
+                $pantryItemId = $existingPantryItem['item_id'];
+                $actionTaken = "updated";
+            } else {
+                // Units don't match, create separate entry
+                $pantryItemId = insertItemToPantry($db, $data->user_id, $shoppingItem, $data->quantity_bought, $timestamp);
+                $actionTaken = "created_separate";
+            }
+        } else {
+            // Item doesn't exist in pantry, add new
+            $pantryItemId = insertItemToPantry($db, $data->user_id, $shoppingItem, $data->quantity_bought, $timestamp);
+            $actionTaken = "created";
+        }
+
+        if ($pantryItemId) {
             // Mark shopping item as completed (bought)
             $updateQuery = "UPDATE shopping_items
                            SET is_completed = TRUE, last_updated = :timestamp
@@ -333,7 +369,8 @@ function moveItemToPantry($db) {
                 "success" => true,
                 "message" => "Item moved to pantry",
                 "pantry_item_id" => $pantryItemId,
-                "quantity_added" => $data->quantity_bought
+                "quantity_added" => $data->quantity_bought,
+                "action" => $actionTaken
             ]);
         } else {
             http_response_code(500);
@@ -462,5 +499,51 @@ function deleteShoppingItem($db, $itemId) {
         ]);
     }
 }
-?>
 
+/**
+ * Helper function to insert a new item into pantry
+ */
+function insertItemToPantry($db, $userId, $shoppingItem, $quantityBought, $timestamp) {
+    $pantryItemId = "pantry_" . $userId . "_" . uniqid();
+
+    $pantryQuery = "INSERT INTO pantry_items
+                   (user_id, item_id, name, quantity, category, last_updated)
+                   VALUES (:user_id, :item_id, :name, :quantity, :category, :timestamp)";
+
+    $pantryStmt = $db->prepare($pantryQuery);
+    $pantryStmt->bindParam(":user_id", $userId);
+    $pantryStmt->bindParam(":item_id", $pantryItemId);
+    $pantryStmt->bindParam(":name", $shoppingItem['name']);
+    $pantryStmt->bindParam(":quantity", $quantityBought);
+    $pantryStmt->bindParam(":category", $shoppingItem['category']);
+    $pantryStmt->bindParam(":timestamp", $timestamp);
+
+    if ($pantryStmt->execute()) {
+        return $pantryItemId;
+    } else {
+        return null;
+    }
+}
+
+/**
+ * Parse quantity string to extract numeric value and unit
+ * Examples: "2 cups" -> [value: 2, unit: "cups"], "5" -> [value: 5, unit: ""]
+ */
+function parseQuantity($quantityStr) {
+    $quantityStr = trim($quantityStr);
+
+    // Try to match number followed by optional unit
+    if (preg_match('/^([\d.]+)\s*(.*)$/', $quantityStr, $matches)) {
+        return [
+            'value' => floatval($matches[1]),
+            'unit' => trim($matches[2])
+        ];
+    }
+
+    // If parsing fails, treat as 1 with the whole string as unit
+    return [
+        'value' => 1,
+        'unit' => $quantityStr
+    ];
+}
+?>
