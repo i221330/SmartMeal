@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">SmartMeal</string>
+    <string name="app_subtitle">AI-Assisted Recipe &amp; Meal Planner</string>
+
+    <!-- Onboarding - Plan Meals -->
+    <string name="onboarding_plan_meals_title">Plan meals</string>
+    <string name="plan_meals_title">Plan meals</string>
+    <string name="onboarding_plan_meals_description">Create your weekly meal plans with ease, and never wonder what to cook again.</string>
+    <string name="plan_meals_description">Create your weekly meal plans with ease, and never wonder what to cook again.</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="next">Next</string>
+    <string name="got_it">Got it!</string>
+    <string name="back">Back</string>
+
+    <!-- Onboarding - Sync Shopping Lists -->
+    <string name="onboarding_sync_shopping_title">Sync shopping lists</string>
+    <string name="sync_shopping_title">Sync shopping lists</string>
+    <string name="onboarding_sync_shopping_description">Share your shopping list with family members or roommates for seamless grocery shopping.</string>
+    <string name="sync_shopping_description">Share your shopping list with family members or roommates for seamless grocery shopping.</string>
+
+    <!-- Onboarding - Cooking Reminders -->
+    <string name="cooking_reminders_title">Get cooking reminders</string>
+    <string name="cooking_reminders_description">Never miss a meal with timely notifications to help you stay on track with your meal plan.</string>
+
+    <!-- Sign Up -->
+    <string name="create_account">Create Account</string>
+    <string name="name">Name</string>
+    <string name="enter_full_name">Enter your full name</string>
+    <string name="email_or_mobile">Email or Mobile</string>
+    <string name="enter_email_or_mobile">Enter your email or mobile number</string>
+    <string name="password">Password</string>
+    <string name="create_password">Create a password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="confirm_your_password">Confirm your password</string>
+    <string name="already_have_account">Already have an account?</string>
+
+
+    <!-- Pantry -->
+    <string name="pantry_title">Pantry</string>
+    <string name="pantry_my_ingredients">My Ingredients</string>
+    <string name="my_ingredients">My Ingredients</string>
+    <string name="pantry_upload_photo">Upload Photo</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="pantry_eggs">Eggs</string>
+    <string name="pantry_eggs_quantity">12</string>
+    <string name="pantry_milk">Milk</string>
+    <string name="pantry_milk_quantity">1 gallon</string>
+    <string name="pantry_flour">Flour</string>
+    <string name="pantry_flour_quantity">5 lbs</string>
+    <string name="pantry_sugar">Sugar</string>
+    <string name="pantry_sugar_quantity">3 lbs</string>
+    <string name="pantry_butter">Butter</string>
+    <string name="pantry_butter_quantity">1 lb</string>
+    <string name="pantry_salt">Salt</string>
+    <string name="pantry_salt_quantity">1 box</string>
+    <string name="pantry_chicken_breast">Chicken Breast</string>
+    <string name="pantry_chicken_breast_quantity">2 lbs</string>
+    <string name="pantry_ground_beef">Ground Beef</string>
+    <string name="pantry_ground_beef_quantity">1 lb</string>
+
+    <!-- Recipe List -->
+    <string name="recipe_list_title">Recipes</string>
+    <string name="recipes">Recipes</string>
+    <string name="recipe_list_search_placeholder">Search recipes, ingredients</string>
+    <string name="search_recipes_ingredients">Search recipes, ingredients</string>
+    <string name="recipe_list_filter_time">Time</string>
+    <string name="time">Time</string>
+    <string name="recipe_list_filter_diet">Diet</string>
+    <string name="diet">Diet</string>
+    <string name="recipe_list_filter_cuisine">Cuisine</string>
+    <string name="recipe_1_title">Quick Chicken Stir-Fry</string>
+    <string name="recipe_1_time">30 min</string>
+    <string name="recipe_2_title">Mediterranean Quinoa Salad</string>
+    <string name="recipe_2_time">20 min</string>
+    <string name="recipe_3_title">Spicy Black Bean Burgers</string>
+    <string name="recipe_3_time">45 min</string>
+    <string name="recipe_4_title">Creamy Tomato Pasta</string>
+    <string name="recipe_4_time">25 min</string>
+    <string name="recipe_5_title">Fresh Garden Salad</string>
+    <string name="recipe_5_time">15 min</string>
+    <string name="recipe_6_title">Gourmet Pizza Slices</string>
+    <string name="recipe_6_time">35 min</string>
+
+    <!-- Recipe Details -->
+    <string name="recipe_detail_title">Recipe Details</string>
+    <string name="recipe_details">Recipe Details</string>
+    <string name="recipe_detail_name">Creamy Tomato Pasta</string>
+    <string name="recipe_detail_ingredients_header">Ingredients</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="recipe_detail_ingredient_1">1 lb pasta</string>
+    <string name="recipe_detail_ingredient_2">1 cup heavy cream</string>
+    <string name="recipe_detail_ingredient_3">1 can diced tomatoes</string>
+    <string name="recipe_detail_ingredient_4">1/2 cup grated Parmesan cheese</string>
+    <string name="recipe_detail_ingredient_5">2 cloves garlic, minced</string>
+    <string name="recipe_detail_instructions_header">Instructions</string>
+    <string name="instructions">Instructions</string>
+    <string name="recipe_detail_instruction_1">Cook pasta according to package instructions.</string>
+    <string name="recipe_detail_instruction_2">In a separate pan, heat cream and tomatoes.</string>
+    <string name="recipe_detail_instruction_3">Add cheese and garlic, stir until melted.</string>
+    <string name="recipe_detail_instruction_4">Combine sauce with cooked pasta.</string>
+    <string name="recipe_detail_add_to_planner">Add to Planner</string>
+    <string name="add_to_planner">Add to Planner</string>
+    <string name="recipe_detail_add_to_shopping_list">Add to Shopping List</string>
+    <string name="add_to_shopping_list">Add to Shopping List</string>
+
+    <!-- Shopping List -->
+    <string name="shopping_list_title">Shopping List</string>
+    <string name="shopping_list_add_placeholder">Add Item (e.g., 2 apples)</string>
+    <string name="add_item_hint">Add Item (e.g., 2 apples)</string>
+    <string name="shopping_list_mark_completed">Mark all as completed</string>
+    <string name="mark_all_completed">Mark all as completed</string>
+    <string name="shopping_list_ground_beef">Ground Beef</string>
+    <string name="shopping_list_ground_beef_qty">200g</string>
+    <string name="shopping_list_chicken_breast">Chicken Breast</string>
+    <string name="shopping_list_chicken_breast_qty">1kg</string>
+    <string name="shopping_list_salmon_fillets">Salmon Fillets</string>
+    <string name="shopping_list_salmon_fillets_qty">1kg</string>
+    <string name="shopping_list_pork_tenderloin">Pork Tenderloin</string>
+    <string name="shopping_list_pork_tenderloin_qty">1kg</string>
+    <string name="shopping_list_shrimp">Shrimp</string>
+    <string name="shopping_list_shrimp_qty">1kg</string>
+    <string name="shopping_list_tofu">Tofu</string>
+    <string name="shopping_list_tofu_qty">1kg</string>
+    <string name="shopping_list_lentils">Lentils</string>
+    <string name="shopping_list_lentils_qty">1kg</string>
+
+    <!-- Home Dashboard -->
+    <string name="home_title">SmartMeal</string>
+    <string name="home_todays_meals">Today\'s Meals</string>
+    <string name="todays_meals">Today\'s Meals</string>
+    <string name="home_quick_actions">Quick Actions</string>
+    <string name="quick_actions">Quick Actions</string>
+    <string name="home_planner_button">Planner</string>
+    <string name="home_shopping_list_button">Shopping List</string>
+    <string name="shopping_list">Shopping List</string>
+    <string name="home_add_meal_button">Add Meal</string>
+    <string name="add_meal">Add Meal</string>
+    <string name="recipe_list">Recipe List</string>
+    <string name="ai_assistant">AI Assistant</string>
+    <string name="recipes_you_can_make">Recipes You Can Make</string>
+    <string name="all_ingredients_available">✓ All ingredients available</string>
+    <string name="missing_items">⚠ Missing 2 items</string>
+    <string name="recipe_image">Recipe image</string>
+    <string name="add_missing_to_shopping_list">Add Missing Items to Shopping List</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="sync_status">Last synced</string>
+    <string name="offline_mode">Offline Mode</string>
+    <string name="syncing">Syncing...</string>
+    <string name="clear_completed">Clear Completed Items</string>
+    <string name="change_profile_picture">Change Profile Picture</string>
+    <string name="home_breakfast">Breakfast</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="home_breakfast_recipe">Avocado Toast with Poached Egg</string>
+    <string name="home_breakfast_time">Prep: 5 min | Cook: 10 min</string>
+    <string name="home_lunch">Lunch</string>
+    <string name="lunch">Lunch</string>
+    <string name="home_lunch_recipe">Quinoa Salad with Grilled Chicken</string>
+    <string name="home_lunch_time">Prep: 15 min | Cook: 20 min</string>
+    <string name="home_dinner">Dinner</string>
+    <string name="dinner">Dinner</string>
+    <string name="home_dinner_recipe">Salmon with Roasted Vegetables</string>
+    <string name="home_dinner_time">Prep: 10 min | Cook: 25 min</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_settings_title">Settings</string>
+    <string name="settings">Settings</string>
+    <string name="profile_notifications_label">Notifications</string>
+    <string name="notifications">Notifications</string>
+    <string name="profile_notifications_description">Enable meal reminders and updates.</string>
+    <string name="notifications_description">Enable meal reminders and updates.</string>
+    <string name="profile_user_name">Sophia Carter</string>
+    <string name="profile_membership">Premium Member</string>
+    <string name="premium_member">Premium Member</string>
+    <string name="profile_joined">Joined 2022</string>
+    <string name="profile_logout">Log Out</string>
+    <string name="log_out">Log Out</string>
+
+    <!-- Bottom Navigation -->
+    <string name="home">Home</string>
+    <string name="pantry">Pantry</string>
+    <string name="planner">Planner</string>
+    <string name="shopping">Shopping</string>
+    <string name="profile">Profile</string>
+
+    <!-- Meal Planner -->
+    <string name="meal_planner">Meal Planner</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+
+    <!-- Login -->
+    <string name="welcome_back">Welcome Back</string>
+    <string name="login_subtitle">Sign in to continue</string>
+    <string name="login">Login</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+
+    <!-- AI Assistant -->
+    <string name="smartmeal_assistant">SmartMeal Assistant</string>
+    <string name="type_message">Type message</string>
+
+    <!-- Common Actions -->
+    <string name="action_back">Back</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="action_add">Add</string>
+    <string name="add">Add</string>
+</resources>

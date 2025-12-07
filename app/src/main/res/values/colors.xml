@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary">#19e619</color>
+    <color name="primary_dark">#0fb80f</color>
+    <color name="primary_light">#3319e619</color>
+
+    <!-- Background Colors -->
+    <color name="background_light">#f6f8f6</color>
+    <color name="background_dark">#111811</color>
+
+    <!-- Text Colors -->
+    <color name="text_light">#111811</color>
+    <color name="text_light_accent">#99112811</color>
+    <color name="content_light">#111811</color>
+
+    <!-- Surface Colors -->
+    <color name="surface_light">#ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="subtle_light">#f0f2f0</color>
+
+    <!-- Accent Colors -->
+    <color name="accent_green">#19e619</color>
+    <color name="accent_green_light">#3319e619</color>
+
+    <!-- AI Assistant Orange Theme -->
+    <color name="assistant_primary">#ec7f13</color>
+    <color name="assistant_primary_dark">#d66f0f</color>
+    <color name="assistant_primary_light">#33ec7f13</color>
+    <color name="assistant_background_light">#f8f7f6</color>
+    <color name="assistant_background_dark">#221910</color>
+    <color name="assistant_message_bg">#E5E5E5</color>
+    <color name="assistant_message_bg_dark">#2A2A2A</color>
+</resources>

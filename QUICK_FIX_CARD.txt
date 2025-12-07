@@ -1,0 +1,101 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║                   🎯 SMARTMEAL QUICK FIX CARD                        ║
+║                  For Physical Phone Setup                            ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ THE PROBLEM:                                                         │
+│ • You're using a physical phone                                      │
+│ • App is configured for "localhost:8080"                             │
+│ • localhost = your phone, NOT your Mac → FAILS!                      │
+└──────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ THE FIX: Use Your Mac's Real IP Address                             │
+└──────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════╗
+║ STEP 1: GET YOUR MAC'S IP                                           ║
+╠══════════════════════════════════════════════════════════════════════╣
+║ Apple Menu → System Preferences → Network                           ║
+║ Look for: IP Address: 192.168.x.x                                   ║
+║ Write it down! _____._____._____.____                                ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+╔══════════════════════════════════════════════════════════════════════╗
+║ STEP 2: UPDATE CODE                                                 ║
+╠══════════════════════════════════════════════════════════════════════╣
+║ File: app/src/main/java/com/example/smartmeal/network/ApiClient.kt  ║
+║                                                                      ║
+║ Line 12 - CHANGE THIS:                                              ║
+║ const val BASE_URL = "http://localhost:8080/smartmeal/backend/api/" ║
+║                                                                      ║
+║ TO THIS (use YOUR IP):                                              ║
+║ const val BASE_URL = "http://192.168.1.5/smartmeal/backend/api/"    ║
+║                                                                      ║
+║ Save file: Cmd+S                                                    ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+╔══════════════════════════════════════════════════════════════════════╗
+║ STEP 3: REBUILD                                                     ║
+╠══════════════════════════════════════════════════════════════════════╣
+║ cd /Users/mac/StudioProjects/SmartMeal                              ║
+║ ./gradlew clean assembleDebug installDebug                          ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+╔══════════════════════════════════════════════════════════════════════╗
+║ STEP 4: TEST FROM PHONE BROWSER (BEFORE RUNNING APP!)              ║
+╠══════════════════════════════════════════════════════════════════════╣
+║ 1. Phone & Mac on SAME Wi-Fi                                        ║
+║ 2. Open Chrome/Safari on phone                                      ║
+║ 3. Go to: http://YOUR_MAC_IP/smartmeal/backend/api/users.php        ║
+║ 4. Should see: {"message":"SmartMeal User API"...}                  ║
+║                                                                      ║
+║ If you can't access it:                                             ║
+║ • Check XAMPP Apache is running                                     ║
+║ • Check both on same Wi-Fi                                          ║
+║ • Disable Mac firewall temporarily                                  ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+╔══════════════════════════════════════════════════════════════════════╗
+║ STEP 5: RUN APP AND TEST SIGNUP                                     ║
+╠══════════════════════════════════════════════════════════════════════╣
+║ Splash → Login → Click "Sign Up"                                    ║
+║ Fill: Name, Email, Password → Click "Sign Up"                       ║
+║ Should go to: Onboarding 1 ✅                                        ║
+║ Then: Onboarding 2 → Onboarding 3 → Home ✅                          ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ ✅ YOU'RE DONE! No adb needed!                                       │
+└──────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────┐
+│ 🆘 QUICK TROUBLESHOOTING                                             │
+├──────────────────────────────────────────────────────────────────────┤
+│ Phone browser can't access URL:                                     │
+│ → Check XAMPP Apache running                                        │
+│ → Test on Mac: http://localhost/smartmeal/backend/api/users.php     │
+│ → Disable firewall temporarily                                      │
+│                                                                      │
+│ Signup hangs:                                                        │
+│ → Check phone browser can access backend URL                        │
+│ → Check logcat: adb logcat -s PhpAuthRepository:D                   │
+│                                                                      │
+│ Database errors:                                                     │
+│ → Verify password_hash column exists in users table                 │
+│ → http://localhost/phpmyadmin → smartmeal_db → users → Structure    │
+└──────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════╗
+║ 📚 HELPFUL FILES IN YOUR PROJECT:                                   ║
+╠══════════════════════════════════════════════════════════════════════╣
+║ • DO_THIS_NOW.md          - Detailed step-by-step                   ║
+║ • FIND_IP_GUIDE.html       - Visual guide (open in browser)         ║
+║ • PHYSICAL_PHONE_SETUP.md  - Complete phone setup                   ║
+║ • COMPLETE_SETUP_GUIDE.md  - Full backend + app setup              ║
+║ • NO_ADB_SOLUTION.md       - Why you don't need adb                 ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+                           🚀 READY TO GO! 🚀
+

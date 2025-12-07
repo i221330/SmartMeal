@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartMeal - AI Assistant</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec7f13",
+                        "background-light": "#f8f7f6",
+                        "background-dark": "#221910",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 1,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-zinc-900 dark:text-zinc-100">
+<div class="flex flex-col h-screen">
+<header class="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-zinc-200 dark:border-zinc-800">
+<button class="p-2 -ml-2">
+<span class="material-symbols-outlined text-zinc-900 dark:text-zinc-100">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold text-center">SmartMeal Assistant</h1>
+<div class="w-8"></div>
+</header>
+<main class="flex-1 overflow-y-auto p-4 space-y-6">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAljKOCWLNjwGSjIcK5hMoo5lzx_1hVIwdseLjUduv3TaGqvPC9_QOjC-BlgMCZfUtfBwiwPPS8c1jraSofDsmORCV73aG5b57i-YFRm4xqcD-fVvCltSwmZeQssQmuB4z4nGwWVgA12ubABT-uwbTLM8T8YvYrJwXRKNviQRY96wRfmatImyxrtaIzhFZlRbp8UoUEJ-cGBIL3MIvTRTrOEAHxK2GjPfHbaPMO2OGKeyIEAWZ6oyQlo9PM3hySer4Q8xw94jWJbw");'></div>
+<div class="flex flex-col gap-1">
+<p class="text-xs text-zinc-500 dark:text-zinc-400">SmartMeal Assistant</p>
+<div class="bg-zinc-200 dark:bg-zinc-800 p-3 rounded-lg rounded-tl-none">
+<p class="text-base">Hi there! I'm your SmartMeal Assistant. How can I help you today?</p>
+</div>
+</div>
+</div>
+<div class="flex items-start gap-3 justify-end">
+<div class="flex flex-col gap-1 items-end">
+<p class="text-xs text-zinc-500 dark:text-zinc-400">You</p>
+<div class="bg-primary text-white p-3 rounded-lg rounded-tr-none">
+<p class="text-base">I'm looking for healthy dinner recipes.</p>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-cover bg-center shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBOSyMwwOyMv6MQLjrrkDKnXgl8SUDsfNv_G6KpBqj9z6DcZls_tQkEM8jDQvzY99O3gJ6SgW6Wf-ws1Z8Len8ksUEop1_lP04Ku6Z6gpFF-dYbbuEF1AgSX3OyLjoqMjyNi-1IF8e20sv5FdOSyRsJOxNrV4H8LX-WtNkSZzjREuGvKIg2qB-uNkPlSuP8-_-cscZxVYI90Fz3RJ-iEyN_ATSdoSf4a61J6WM1CqBEEb1HHFHatkKvQdvauotUIPsJa7Z-kQY_WA");'></div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAfqI4_r3eFsCQwH7qBQsJJELojgpkoP888aMcPd77FZOGT3e3p_IItkwEpBxZ4zRaq9Dg8_8Y_61AZ2sW1qhhE-HItgFGuKanbVOhmKVSfOIsoTtdjXJbV8Kpi8jB5K9Icc0Ly1TksiQ9_IXQ6HXaNl_dh7fp7wNtuBk3atW7pJQ4cE36BNeeiaXmzxAdVPIRtajVyN0a2qz_KkdFhe78VP01pI0pIwYCK7CB_IkESnB-nDWdYvsvbykg-GTsYCq0_N2qtQK4BAg");'></div>
+<div class="flex flex-col gap-1">
+<p class="text-xs text-zinc-500 dark:text-zinc-400">SmartMeal Assistant</p>
+<div class="bg-zinc-200 dark:bg-zinc-800 p-3 rounded-lg rounded-tl-none">
+<p class="text-base">Great! Do you have any dietary preferences or ingredients you'd like to include or exclude?</p>
+</div>
+</div>
+</div>
+<div class="flex gap-2 flex-wrap pl-12">
+<button class="px-4 py-1.5 text-sm font-medium bg-primary/10 dark:bg-primary/20 text-primary rounded-full">Vegetarian</button>
+<button class="px-4 py-1.5 text-sm font-medium bg-primary/10 dark:bg-primary/20 text-primary rounded-full">Gluten-Free</button>
+<button class="px-4 py-1.5 text-sm font-medium bg-primary/10 dark:bg-primary/20 text-primary rounded-full">Quick &amp; Easy</button>
+</div>
+</main>
+<footer class="sticky bottom-0 bg-background-light dark:bg-background-dark">
+<div class="flex items-center p-3 gap-3 @container border-t border-zinc-200 dark:border-zinc-800">
+<div class="flex-1 flex items-center bg-zinc-200 dark:bg-zinc-800 rounded-full px-4">
+<input class="form-input flex-1 bg-transparent border-none focus:ring-0 p-0 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-500 dark:placeholder:text-zinc-400" placeholder="Type a message..." value=""/>
+<button class="p-2">
+<span class="material-symbols-outlined text-zinc-500 dark:text-zinc-400 text-2xl">mood</span>
+</button>
+</div>
+<button class="bg-primary rounded-full h-12 w-12 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white">send</span>
+</button>
+</div>
+<nav class="flex justify-around border-t border-zinc-200 dark:border-zinc-800 pb-3 pt-2">
+<a class="flex flex-col items-center gap-1 text-zinc-900 dark:text-zinc-100" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-xs font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-zinc-500 dark:text-zinc-400" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-xs font-medium">Pantry</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-zinc-500 dark:text-zinc-400" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="text-xs font-medium">Planner</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-zinc-500 dark:text-zinc-400" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-xs font-medium">Shopping List</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-zinc-500 dark:text-zinc-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-xs font-medium">Profile</span>
+</a>
+</nav>
+</footer>
+</div>
+
+</body></html>

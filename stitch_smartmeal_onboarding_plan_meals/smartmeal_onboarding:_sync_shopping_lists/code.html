@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartMeal Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                    },
+                    fontFamily: {
+                        "display": ["Epilogue", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-[100dvh] w-full flex-col justify-between overflow-hidden">
+<div class="absolute top-0 right-0 p-6">
+<a class="font-bold text-gray-800 dark:text-gray-200" href="#">Skip</a>
+</div>
+<div class="flex flex-col items-center justify-center pt-16">
+<div class="@container w-full px-8">
+<div class="w-full aspect-square bg-center bg-no-repeat bg-cover rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMMPechAj38DU8doDodP4thBz2DWIjC5X-r9_Xf8PvjXpAjMQkBdTCKwtLlA1EOa_FdPYMNnxl7ZN1DyNrInbnN8OaXTMSzLNotHW6HYbQxAuvO5hmIJy6eC8kvOQ2TNrfig88nxRo8t1IZxiVHMCpiElSdmHyNsSYCz7w62qmeaIXesaHv1wm7qlvD06Clc7f-XKVTDpUXFMFu_Vp2WYHMCPMWu_yqRec1UlJgSKOL-joU3ZnAyr8xwyQBDgcySP0brhILBxpxg");'></div>
+</div>
+<div class="text-center px-6 mt-10">
+<h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Sync shopping lists</h1>
+<p class="mt-3 text-base text-gray-600 dark:text-gray-300 max-w-sm mx-auto">
+                    Share your shopping list with family members or roommates for seamless grocery shopping.
+                </p>
+</div>
+</div>
+<div class="flex flex-col items-center gap-6 px-6 pb-12">
+<div class="flex items-center justify-center gap-2">
+<div class="progress-dot bg-primary/30"></div>
+<div class="progress-dot bg-primary w-5"></div>
+<div class="progress-dot bg-primary/30"></div>
+</div>
+<button class="w-full flex items-center justify-center rounded-xl h-14 px-6 bg-primary text-black text-lg font-bold">
+                Next
+            </button>
+</div>
+</div>
+
+</body></html>

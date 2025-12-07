@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartMeal - Onboarding</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#19e619",
+              "background-light": "#f6f8f6",
+              "background-dark": "#112111",
+              "text-light": "#111811",
+              "text-dark": "#f6f8f6",
+            },
+            fontFamily: {
+              "display": ["Epilogue", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>.text-theme {
+            color: #111811;}
+        .dark .text-theme {
+            color: #f6f8f6;}
+        .bg-primary .text-theme-on-primary {
+            color: #112111;}
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex flex-col h-screen justify-between p-6">
+<div class="flex justify-end">
+<a class="text-theme font-medium text-lg rounded-lg px-4 py-2" href="#">Skip</a>
+</div>
+<div class="flex-grow flex flex-col justify-center items-center text-center">
+<div class="w-full max-w-sm">
+<img alt="Illustration of a person planning meals" class="w-full h-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWmhiwSgFrDIzHk9-mTfXywQR933nhnt0EbacD5DDfdcgXnKZoCa5CA_5BAXK4M9tV18EI4gj_64-0HnNyw5MgZzV6DtP0qAztllyIaK0BjwJGGv7Ezw4Prd38hPez2S9aqukVjHQcm_wQuvbk4BlDj7aFQJ7o3fON4ZZZP0MCXmTz9fuWuH9QEwPJQhVEzkU0_msBVwAsTNWGcoXlxeyfcgh6yBS4RNMGh2xjMYULfHDGQkux4MDmeCBnYSDDrexX0DsPysOgWQ"/>
+</div>
+<h1 class="text-theme text-3xl font-bold mt-10 mb-4">Plan meals</h1>
+<p class="text-theme text-lg max-w-xs mx-auto">
+                Create your weekly meal plans with ease, and never wonder what to cook again.
+            </p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex space-x-2">
+<div class="w-3 h-3 bg-primary/40 rounded-full"></div>
+<div class="w-3 h-3 bg-primary/20 rounded-full"></div>
+<div class="w-3 h-3 bg-primary/20 rounded-full"></div>
+</div>
+<button class="bg-primary text-theme-on-primary font-bold text-lg rounded-full w-14 h-14 flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+
+</body></html>

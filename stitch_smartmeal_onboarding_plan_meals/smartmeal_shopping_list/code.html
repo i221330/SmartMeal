@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartMeal - Shopping List</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+             font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col justify-between">
+<div class="flex-grow">
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm p-4">
+<div class="flex items-center justify-between">
+<h1 class="text-2xl font-bold text-background-dark dark:text-background-light flex-1 text-center">Shopping List</h1>
+</div>
+</header>
+<main class="px-4 pb-24">
+<div class="space-y-2 mt-6">
+<div class="flex items-center gap-4 bg-background-light dark:bg-background-dark p-3 rounded-lg shadow-sm">
+<input class="h-6 w-6 rounded border-primary/50 text-primary focus:ring-primary focus:ring-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark bg-transparent border-2" type="checkbox"/>
+<div class="flex-grow">
+<p class="text-base font-medium text-background-dark dark:text-background-light">Ground Beef</p>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60">200g</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-background-light dark:bg-background-dark p-3 rounded-lg shadow-sm">
+<input class="h-6 w-6 rounded border-primary/50 text-primary focus:ring-primary focus:ring-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark bg-transparent border-2" type="checkbox"/>
+<div class="flex-grow">
+<p class="text-base font-medium text-background-dark dark:text-background-light">Chicken Breast</p>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60">1kg</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-background-light dark:bg-background-dark p-3 rounded-lg shadow-sm">
+<input checked="" class="h-6 w-6 rounded border-primary/50 text-primary focus:ring-primary focus:ring-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark bg-transparent border-2" type="checkbox"/>
+<div class="flex-grow">
+<p class="text-base font-medium text-background-dark/40 dark:text-background-light/40 line-through">Salmon Fillets</p>
+<p class="text-sm text-background-dark/30 dark:text-background-light/30 line-through">1kg</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-background-light dark:bg-background-dark p-3 rounded-lg shadow-sm">
+<input class="h-6 w-6 rounded border-primary/50 text-primary focus:ring-primary focus:ring-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark bg-transparent border-2" type="checkbox"/>
+<div class="flex-grow">
+<p class="text-base font-medium text-background-dark dark:text-background-light">Pork Tenderloin</p>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60">1kg</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-background-light dark:bg-background-dark p-3 rounded-lg shadow-sm">
+<input class="h-6 w-6 rounded border-primary/50 text-primary focus:ring-primary focus:ring-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark bg-transparent border-2" type="checkbox"/>
+<div class="flex-grow">
+<p class="text-base font-medium text-background-dark dark:text-background-light">Shrimp</p>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60">1kg</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-background-light dark:bg-background-dark p-3 rounded-lg shadow-sm">
+<input checked="" class="h-6 w-6 rounded border-primary/50 text-primary focus:ring-primary focus:ring-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark bg-transparent border-2" type="checkbox"/>
+<div class="flex-grow">
+<p class="text-base font-medium text-background-dark/40 dark:text-background-light/40 line-through">Tofu</p>
+<p class="text-sm text-background-dark/30 dark:text-background-light/30 line-through">1kg</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-background-light dark:bg-background-dark p-3 rounded-lg shadow-sm">
+<input class="h-6 w-6 rounded border-primary/50 text-primary focus:ring-primary focus:ring-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark bg-transparent border-2" type="checkbox"/>
+<div class="flex-grow">
+<p class="text-base font-medium text-background-dark dark:text-background-light">Lentils</p>
+<p class="text-sm text-background-dark/60 dark:text-background-light/60">1kg</p>
+</div>
+</div>
+</div>
+<div class="fixed bottom-24 left-0 right-0 px-4 py-3 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-t border-background-light/50 dark:border-background-dark/50">
+<div class="flex items-center gap-4">
+<input class="flex-grow bg-background-light/50 dark:bg-background-dark/50 border border-primary/30 dark:border-primary/50 rounded-lg px-4 py-3 text-background-dark dark:text-background-light placeholder-background-dark/50 dark:placeholder-background-light/50 focus:ring-primary focus:border-primary" placeholder="Add Item (e.g., 2 apples)" type="text"/>
+<button class="bg-primary p-3 rounded-lg text-black">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<button class="w-full mt-3 bg-primary/20 dark:bg-primary/30 text-primary font-bold py-3 rounded-lg text-sm">Mark all as completed</button>
+</div>
+</main>
+</div>
+<nav class="fixed bottom-0 left-0 right-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-t border-primary/20 dark:border-primary/30">
+<div class="flex justify-around items-center h-20">
+<a class="flex flex-col items-center gap-1 text-background-dark/60 dark:text-background-light/60" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-xs font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-background-dark/60 dark:text-background-light/60" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-xs font-medium">Pantry</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-background-dark/60 dark:text-background-light/60" href="#">
+<span class="material-symbols-outlined">date_range</span>
+<span class="text-xs font-medium">Planner</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary dark:text-primary" href="#">
+<span class="material-symbols-outlined fill">list_alt</span>
+<span class="text-xs font-bold">Shopping</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-background-dark/60 dark:text-background-light/60" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-xs font-medium">Profile</span>
+</a>
+</div>
+</nav>
+</div>
+
+</body></html>

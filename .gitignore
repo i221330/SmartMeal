@@ -1,0 +1,40 @@
+# Android Studio
+.gradle/
+.idea/
+*.iml
+local.properties
+.DS_Store
+build/
+captures/
+.externalNativeBuild
+.cxx
+
+# Gradle
+.gradle
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+# Android
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+release/
+
+# Sensitive files
+google-services.json
+local.properties
+
+# Logs
+*.log
+
+# Misc
+.navigation/
+captures/
+output.json
+

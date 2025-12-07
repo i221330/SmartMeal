@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartMeal - Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                    },
+                    fontFamily: {
+                        "display": ["Epilogue", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex flex-col justify-between min-h-screen">
+<div class="flex flex-col flex-grow">
+<div class="w-full h-80 bg-center bg-no-repeat bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD-D19NnaoHl-HJuWbxe06AwAxqSzBjnFashWE2-wgvItxfYVCF2YYobmRFHgu7_IsI2dPFgYjSyQkwUl1qr0sF7GEROzDuRqp6swfk6cyQrowiObdQfioyrU4thNfkrqm-vGRUDuBU7UMxliOivhlGwcidLMLmmRHyEgUx6I6UcgR4JBKL4SubkOWACATVH0mBIG5BsUivlkXBfjNs0nhXN189O1vtoJERa0hUX78SX4FS1NlLf3yYjFfK_WIDO2kJlLre1sm8Kg");'></div>
+<div class="px-6 pt-12 pb-6 text-center">
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white leading-tight">Get cooking reminders</h1>
+<p class="mt-4 text-base text-gray-600 dark:text-gray-300">
+                    Never miss a meal prep session again. Receive timely notifications to start cooking, ensuring your meals are always fresh and on schedule.
+                </p>
+</div>
+</div>
+<div class="px-6 pb-8">
+<div class="flex items-center justify-center mb-6">
+<div class="w-2 h-2 rounded-full bg-primary/20"></div>
+<div class="w-2 h-2 mx-2 rounded-full bg-primary/20"></div>
+<div class="w-4 h-2 rounded-full bg-primary"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="w-full h-14 flex items-center justify-center rounded-lg text-base font-bold bg-primary/20 dark:bg-primary/30 text-gray-900 dark:text-white transition-colors">
+                    Skip
+                </button>
+<button class="w-full h-14 flex items-center justify-center rounded-lg text-base font-bold bg-primary text-gray-900 transition-colors">
+                    Next
+                </button>
+</div>
+</div>
+</div>
+
+</body></html>

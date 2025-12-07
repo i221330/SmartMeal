@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartMeal</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Epilogue:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700;900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                    },
+                    fontFamily: {
+                        "display": ["Epilogue"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-black dark:text-white">
+<div class="relative flex h-auto min-h-screen w-full flex-col justify-between overflow-x-hidden">
+<div class="flex-grow">
+<header class="flex items-center justify-between p-4 bg-background-light dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-10">
+<div class="w-10"></div>
+<h1 class="text-xl font-bold text-center flex-1">SmartMeal</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-black dark:text-white">
+<span class="material-symbols-outlined">
+                        settings
+                    </span>
+</button>
+</header>
+<main class="px-4 pb-24">
+<section class="mt-4">
+<h2 class="text-2xl font-bold">Today's Meals</h2>
+<div class="mt-4 space-y-4">
+<div class="flex items-center gap-4 p-3 rounded-xl bg-white/50 dark:bg-black/20">
+<div class="flex-1">
+<p class="text-sm font-medium text-black/60 dark:text-white/60">Breakfast</p>
+<p class="font-bold mt-1">Avocado Toast with Poached Egg</p>
+<p class="text-xs text-black/60 dark:text-white/60 mt-1">Prep: 5 min | Cook: 10 min</p>
+</div>
+<div class="w-24 h-24 bg-cover bg-center rounded-lg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAFPPoco1LCuDGPnL4MK4KLT4vX8-2MfOBMW1AdhxkelJgBytuxRirrhnn5I94uU3wD6tW2uro30XK6ULRKgbrVX8VaXY0T_BvF_uapvVtrIEaWcLPqttutap6-ydX2gfyoDjcs-wxU46WIZRROIg3GwvECO34kvcI3e6pGEtksTTlY3v0Dm4ZK3bdjveLjIIF5KbQULrA3wmB3bY0rPTGGs37FbdMaOvRGsotmXcdtRqs-oV6Y6TRkcqgezu0UDJTX1LiP-jDyJA");'></div>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-xl bg-white/50 dark:bg-black/20">
+<div class="flex-1">
+<p class="text-sm font-medium text-black/60 dark:text-white/60">Lunch</p>
+<p class="font-bold mt-1">Quinoa Salad with Grilled Chicken</p>
+<p class="text-xs text-black/60 dark:text-white/60 mt-1">Prep: 15 min | Cook: 20 min</p>
+</div>
+<div class="w-24 h-24 bg-cover bg-center rounded-lg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAaXcwIh4MgpV4nBbKnxpwx_XwwZd2GzEk_jqoPcZcjEXfAbpK4cbXrZaspvKJROujzfWCL0_VK_m7qXyVpuWQ-uan1-aP_kEwY7cnpJ-xL-9dpMojhJm1CNRJRxRcDjdfEmjiioNwqYBMXnuhCmFoy1u1nw4Iocm163NFoAf5VxMoJk3WYbFXpKqmHRtdfMg7AWefzASVUEhyJS1A8Tz-w3In4TCbQYiVe2ZBMNmfknTNjab7y2j0MVCMvhBU1JSuNwB5835DR_Q");'></div>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-xl bg-white/50 dark:bg-black/20">
+<div class="flex-1">
+<p class="text-sm font-medium text-black/60 dark:text-white/60">Dinner</p>
+<p class="font-bold mt-1">Salmon with Roasted Vegetables</p>
+<p class="text-xs text-black/60 dark:text-white/60 mt-1">Prep: 10 min | Cook: 25 min</p>
+</div>
+<div class="w-24 h-24 bg-cover bg-center rounded-lg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzViLWiNuUEHnfKSYpSJayrDxL2SeszrztN8L-7dvfm3Px-fIDdNlgy4vkhEsuMoodgH3tCcaaDGaEeGG60tq3LtPCxTz6D_SMgHdPnZtGnjOVMfsLjsk7kOeKGyYhC6ETtry84cVI5K826DGKUw2aHbiSWeEifTf8SwM22sIQ71SD1B_GfituePtV51Z7EIa7mY2K0DF6YqkLRim4X7OIIfEUgWy9eiGLICEpl16KnbZnAcROscWDw8HF1wvsJmg0oAMkIJj84Q");'></div>
+</div>
+</div>
+</section>
+<section class="mt-8">
+<h2 class="text-2xl font-bold">Quick Actions</h2>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<button class="py-3 px-4 rounded-lg bg-primary/20 dark:bg-primary/30 text-black dark:text-white font-bold text-sm">Planner</button>
+<button class="py-3 px-4 rounded-lg bg-primary/20 dark:bg-primary/30 text-black dark:text-white font-bold text-sm">Shopping List</button>
+</div>
+<button class="mt-4 w-full py-3 px-4 rounded-lg bg-primary text-black font-bold text-sm">Add Meal</button>
+</section>
+</main>
+</div>
+<nav class="fixed bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t border-black/10 dark:border-white/10 px-4 pt-2 pb-4">
+<div class="flex justify-around">
+<a class="flex flex-col items-center gap-1 text-black dark:text-white" href="#">
+<div class="w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+</div>
+<p class="text-xs font-medium">Home</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-black/60 dark:text-white/60" href="#">
+<div class="w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined">kitchen</span>
+</div>
+<p class="text-xs font-medium">Pantry</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-black/60 dark:text-white/60" href="#">
+<div class="w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<p class="text-xs font-medium">Planner</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-black/60 dark:text-white/60" href="#">
+<div class="w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined">list_alt</span>
+</div>
+<p class="text-xs font-medium">Shopping</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-black/60 dark:text-white/60" href="#">
+<div class="w-8 h-8 flex items-center justify-center">
+<span class="material-symbols-outlined">person</span>
+</div>
+<p class="text-xs font-medium">Profile</p>
+</a>
+</div>
+</nav>
+</div>
+
+</body></html>

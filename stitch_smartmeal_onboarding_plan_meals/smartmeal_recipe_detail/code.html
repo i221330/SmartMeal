@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartMeal - Recipe Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                        "content-light": "#111811",
+                        "content-dark": "#e8f3e8",
+                        "subtle-light": "#f0f4f0",
+                        "subtle-dark": "#2a3a2a",
+                        "muted-light": "#638863",
+                        "muted-dark": "#a8c8a8"
+                    },
+                    fontFamily: {
+                        "display": ["Epilogue", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-content-light dark:text-content-dark">
+<div class="flex flex-col min-h-screen justify-between">
+<main class="flex-grow">
+<header class="sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-10 p-4 flex items-center justify-between">
+<button class="flex items-center justify-center size-10">
+<span class="material-symbols-outlined text-3xl">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold text-center flex-1">Recipe Details</h1>
+<div class="size-10"></div>
+</header>
+<div class="w-full h-80 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5o0qO6ELeLmhWJ3_5oMlzaVr7lxXsr4jAEx2ijf6vw_WoydDJ8pRF8Jp303L5pFi35qerMgxf7DvL5Ap4A8IsTkrx_ScC_THB0kUM0tQLYJAHnjXUZRlFbKp5CAa0xnoACawHDI9q1hCUEFIRec9d2b9G7yppPqVtS-Cr1JZmJovaqEteHruO5kt5cEwFSR754Gk3nkp50wZvLLWY9fLdWcEdaf_xOiQ2kofHc9wQfDfxQjHbgeMFLnRH8bjve-B7R9PmaqzFug");'></div>
+<div class="p-4 space-y-6">
+<h2 class="text-3xl font-bold">Creamy Tomato Pasta</h2>
+<div class="space-y-4">
+<h3 class="text-xl font-bold">Ingredients</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 p-3 rounded-lg bg-subtle-light dark:bg-subtle-dark">
+<input class="size-5 rounded border-2 border-muted-light dark:border-muted-dark bg-transparent text-primary focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-background-dark" type="checkbox"/>
+<span class="text-base">1 lb pasta</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg bg-subtle-light dark:bg-subtle-dark">
+<input class="size-5 rounded border-2 border-muted-light dark:border-muted-dark bg-transparent text-primary focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-background-dark" type="checkbox"/>
+<span class="text-base">1 cup heavy cream</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg bg-subtle-light dark:bg-subtle-dark">
+<input class="size-5 rounded border-2 border-muted-light dark:border-muted-dark bg-transparent text-primary focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-background-dark" type="checkbox"/>
+<span class="text-base">1 can diced tomatoes</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg bg-subtle-light dark:bg-subtle-dark">
+<input class="size-5 rounded border-2 border-muted-light dark:border-muted-dark bg-transparent text-primary focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-background-dark" type="checkbox"/>
+<span class="text-base">1/2 cup grated Parmesan cheese</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg bg-subtle-light dark:bg-subtle-dark">
+<input class="size-5 rounded border-2 border-muted-light dark:border-muted-dark bg-transparent text-primary focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-background-dark" type="checkbox"/>
+<span class="text-base">2 cloves garlic, minced</span>
+</label>
+</div>
+</div>
+<div class="space-y-4">
+<h3 class="text-xl font-bold">Instructions</h3>
+<ol class="space-y-3 list-decimal list-inside">
+<li class="text-base">Cook pasta according to package instructions.</li>
+<li class="text-base">In a separate pan, heat cream and tomatoes.</li>
+<li class="text-base">Add cheese and garlic, stir until melted.</li>
+<li class="text-base">Combine sauce with cooked pasta.</li>
+</ol>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="flex-1 text-center py-3 px-6 bg-primary text-background-dark dark:text-background-dark font-bold rounded-full">Add to Planner</button>
+<button class="flex-1 text-center py-3 px-6 bg-primary/20 dark:bg-primary/30 text-content-light dark:text-content-dark font-bold rounded-full">Add to Shopping List</button>
+</div>
+</div>
+</main>
+<footer class="sticky bottom-0 bg-background-light dark:bg-background-dark border-t border-subtle-light dark:border-subtle-dark">
+<nav class="flex justify-around items-center px-2 pt-2 pb-4">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">home</span>
+<span class="text-xs font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-muted-light dark:text-muted-dark" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-xs font-medium">Pantry</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-muted-light dark:text-muted-dark" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="text-xs font-medium">Planner</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-muted-light dark:text-muted-dark" href="#">
+<span class="material-symbols-outlined">list_alt</span>
+<span class="text-xs font-medium">Shopping List</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-muted-light dark:text-muted-dark" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-xs font-medium">Profile</span>
+</a>
+</nav>
+</footer>
+</div>
+
+</body></html>

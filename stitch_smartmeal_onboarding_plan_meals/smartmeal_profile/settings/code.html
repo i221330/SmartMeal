@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartMeal - Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                        "content-light": "#111811",
+                        "content-dark": "#e3e3e3",
+                        "subtle-light": "#638863",
+                        "subtle-dark": "#a0a0a0"
+                    },
+                    fontFamily: {
+                        "display": ["Epilogue", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings:
+            'FILL' 1,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-content-light dark:text-content-dark">
+<div class="flex flex-col h-screen justify-between">
+<main class="flex-grow overflow-y-auto">
+<header class="sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-10">
+<div class="flex items-center p-4">
+<div class="w-12"></div>
+<h1 class="flex-1 text-center text-xl font-bold">Profile</h1>
+<div class="w-12 flex justify-end">
+<button class="p-2 rounded-full hover:bg-primary/20">
+<span class="material-symbols-outlined text-content-light dark:text-content-dark">settings</span>
+</button>
+</div>
+</div>
+</header>
+<div class="p-4 flex flex-col items-center text-center">
+<div class="w-32 h-32 rounded-full bg-cover bg-center mb-4" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA4svMCeW2QH9G071HFe8tWhzGoaJ0FTZ1Psa0lBF5jis_1nAUUbEv_BuT184XYsgRLYREu4uEEYSibKWUvSaRMs1vXw1zoaA4QY4S2hndIXl616rG0oiINa14zsWVbUVGomWt3yObahi0peZ1e4Q2I85IPWQ506Fo_b9pLqE5wF5CdF_Xv-JdmWlQvrgkVIkCbtQqCFQl7l3zCmaUK7dffYVT4uUXbOohrg3GRjNYhzDuZcNh3n1cbyD4_342hEGy9IxGX13Z3zw");'>
+</div>
+<h2 class="text-2xl font-bold">Sophia Carter</h2>
+<p class="text-primary font-medium">Premium Member</p>
+<p class="text-sm text-subtle-light dark:text-subtle-dark">Joined 2022</p>
+</div>
+<div class="px-4 mt-6">
+<h3 class="text-lg font-bold mb-2">Settings</h3>
+<div class="bg-background-light dark:bg-background-dark/50 rounded-lg">
+<div class="flex items-center justify-between p-4">
+<div>
+<p class="font-medium">Notifications</p>
+<p class="text-sm text-subtle-light dark:text-subtle-dark">Enable meal reminders and updates.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<div class="px-4 mt-8">
+<button class="w-full h-12 flex items-center justify-center rounded-lg bg-primary/20 dark:bg-primary/30 text-content-light dark:text-content-dark font-bold hover:bg-primary/30 dark:hover:bg-primary/40 transition-colors">
+                    Log Out
+                </button>
+</div>
+</main>
+<footer class="sticky bottom-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-t border-primary/20 dark:border-primary/30">
+<nav class="flex justify-around items-center px-2 py-2">
+<a class="flex flex-col items-center gap-1 text-subtle-light dark:text-subtle-dark w-1/5" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-xs">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-subtle-light dark:text-subtle-dark w-1/5" href="#">
+<span class="material-symbols-outlined">kitchen</span>
+<span class="text-xs">Pantry</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-subtle-light dark:text-subtle-dark w-1/5" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="text-xs">Planner</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-subtle-light dark:text-subtle-dark w-1/5" href="#">
+<span class="material-symbols-outlined">list_alt</span>
+<span class="text-xs">Shopping</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary w-1/5" href="#">
+<span class="material-symbols-outlined filled">person</span>
+<span class="text-xs font-bold">Profile</span>
+</a>
+</nav>
+</footer>
+</div>
+
+</body></html>
