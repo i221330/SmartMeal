@@ -157,7 +157,6 @@
     <string name="offline_mode">Offline Mode</string>
     <string name="syncing">Syncing...</string>
     <string name="clear_completed">Clear Completed Items</string>
-    <string name="change_profile_picture">Change Profile Picture</string>
     <string name="home_breakfast">Breakfast</string>
     <string name="breakfast">Breakfast</string>
     <string name="home_breakfast_recipe">Avocado Toast with Poached Egg</string>
@@ -182,9 +181,31 @@
     <string name="profile_user_name">Sophia Carter</string>
     <string name="profile_membership">Premium Member</string>
     <string name="premium_member">Premium Member</string>
+    <string name="free_member">Free Member</string>
     <string name="profile_joined">Joined 2022</string>
     <string name="profile_logout">Log Out</string>
     <string name="log_out">Log Out</string>
+    <string name="guest_user">Guest User</string>
+    <string name="joined_year">Joined %s</string>
+    <string name="change_profile_picture">Change Profile Picture</string>
+    <string name="profile_picture_updated">Profile picture updated!</string>
+    <string name="profile_picture_removed">Profile picture removed</string>
+    <string name="logout_confirmation_title">Log Out</string>
+    <string name="logout_confirmation_message">Are you sure you want to log out?</string>
+    <string name="logged_out_successfully">Logged out successfully</string>
+    <string name="notifications_enabled">Notifications enabled</string>
+    <string name="notifications_disabled">Notifications disabled</string>
+    <string name="settings_coming_soon">Settings coming soon!</string>
+    <string name="full_size_view_coming_soon">Full size view coming soon!</string>
+    <string name="unable_to_open_image_picker">Unable to open image picker</string>
+    <string name="error_logging_out">Error logging out</string>
+    <string name="edit_name">Edit Name</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="name_cannot_be_empty">Name cannot be empty</string>
+    <string name="name_updated_successfully">Name updated successfully</string>
+    <string name="error_updating_name">Error updating name</string>
 
     <!-- Bottom Navigation -->
     <string name="home">Home</string>

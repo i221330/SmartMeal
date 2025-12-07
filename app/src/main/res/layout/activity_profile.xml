@@ -57,44 +57,37 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+            <!-- Profile Image Container with Circular Border -->
+            <FrameLayout
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_marginBottom="16dp">
 
                 <ImageView
                     android:id="@+id/profileImageView"
-                    android:layout_width="128dp"
-                    android:layout_height="128dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:background="@drawable/rounded_corner"
-                    android:contentDescription="Profile"
+                    android:contentDescription="@string/profile"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    tools:src="@drawable/ic_launcher_foreground" />
+                    tools:src="@drawable/ic_profile_default" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/changeProfilePicButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:src="@android:drawable/ic_menu_camera"
-                    android:contentDescription="@string/change_profile_picture"
-                    app:fabSize="mini"
-                    app:backgroundTint="@color/primary"
-                    app:tint="@color/text_light" />
+                <!-- Circular Border Overlay -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circular_border"
+                    android:clickable="false"
+                    android:focusable="false" />
 
-            </LinearLayout>
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sophia Carter"
+                android:text="@string/profile_user_name"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="@color/content_light" />
@@ -113,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Joined 2022"
+                android:text="@string/profile_joined"
                 android:textSize="14sp"
                 android:textColor="#99112811" />
 
@@ -166,13 +159,13 @@
 
                     </LinearLayout>
 
-                    <Switch
+                    <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/notificationsSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:thumbTint="@color/primary"
-                        android:trackTint="@color/primary" />
+                        app:thumbTint="@color/primary"
+                        app:trackTint="@color/primary" />
 
                 </LinearLayout>
 

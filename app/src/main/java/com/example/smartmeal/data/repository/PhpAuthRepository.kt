@@ -163,5 +163,9 @@ class PhpAuthRepository(private val userDao: UserDao) {
         // Will be checked via getCurrentUser() != null
         return false
     }
+
+    fun userDao(): UserDao {
+        return userDao
+    }
 }
 
