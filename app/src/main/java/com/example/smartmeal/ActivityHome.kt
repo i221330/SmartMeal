@@ -41,6 +41,12 @@ class ActivityHome : AppCompatActivity() {
         loadRecipeSuggestions()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Reload today's meals when returning from meal planner
+        loadTodaysMeals()
+    }
+
     private fun setupQuickActions() {
         try {
             // Recipe List button

@@ -286,14 +286,15 @@ function addMealToPlan($db) {
             echo json_encode([
                 "success" => true,
                 "message" => "Meal added to plan",
-                "plan_id" => $planId,
-                "ingredients_info" => [
-                    "total_ingredients" => count($ingredientsForShopping),
-                    "already_have" => count(array_filter($ingredientsForShopping, function($i) { return $i['has_in_pantry']; })),
-                    "need_to_buy" => count(array_filter($ingredientsForShopping, function($i) { return !$i['has_in_pantry']; })),
-                    "details" => $ingredientsForShopping
-                ],
-                "note" => "Use 'ingredients_info.details' to show user confirmation dialog before adding to shopping list"
+                "data" => [
+                    "plan_id" => $planId,
+                    "ingredients_info" => [
+                        "total_ingredients" => count($ingredientsForShopping),
+                        "already_have" => count(array_filter($ingredientsForShopping, function($i) { return $i['has_in_pantry']; })),
+                        "need_to_buy" => count(array_filter($ingredientsForShopping, function($i) { return !$i['has_in_pantry']; })),
+                        "details" => $ingredientsForShopping
+                    ]
+                ]
             ]);
         } else {
             http_response_code(500);

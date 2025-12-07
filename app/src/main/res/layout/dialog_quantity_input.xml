@@ -9,29 +9,13 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/itemNameInput"
+            android:id="@+id/quantityInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Item name (e.g., Milk, Eggs)"
-            android:inputType="text"
-            android:maxLines="1" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/itemQuantityInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Quantity (e.g., 2 liters, 1 dozen)"
+            android:hint="Quantity (e.g., 2 cups, 3 pieces)"
             android:inputType="text"
             android:maxLines="1" />
 

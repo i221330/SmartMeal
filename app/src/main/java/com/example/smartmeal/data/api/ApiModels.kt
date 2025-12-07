@@ -63,9 +63,14 @@ data class MealPlan(
     val meal_type: String,
     val notes: String?,
     val last_updated: Long,
-    val is_synced: Boolean,
-    val is_deleted: Boolean
-)
+    val is_synced: Int,  // Backend returns 0 or 1
+    val is_deleted: Int  // Backend returns 0 or 1
+) {
+    val isSynced: Boolean
+        get() = is_synced == 1
+    val isDeleted: Boolean
+        get() = is_deleted == 1
+}
 
 // Generic API Response
 data class ApiResponse<T>(
@@ -94,8 +99,11 @@ data class RecipeDetail(
     val diet_type: String?,
     val ingredients: List<RecipeIngredient>,
     val instructions: String,
-    val is_global: Boolean
-)
+    val is_global: Int  // Backend returns 0 or 1, not boolean
+) {
+    val isGlobal: Boolean
+        get() = is_global == 1
+}
 
 data class RecipeIngredient(
     val name: String,

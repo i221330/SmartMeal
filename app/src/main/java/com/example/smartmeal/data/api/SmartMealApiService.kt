@@ -85,6 +85,17 @@ interface SmartMealApiService {
         @Query("user_id") userId: String
     ): Response<ApiResponse<List<ShoppingItem>>>
 
+    @POST("shopping.php")
+    @Headers("Content-Type: application/json")
+    suspend fun addShoppingItem(
+        @Body request: Map<String, String>
+    ): Response<ApiResponse<String>>
+
+    @DELETE("shopping.php")
+    suspend fun deleteShoppingItem(
+        @Query("item_id") itemId: String
+    ): Response<ApiResponse<String>>
+
     // Ingredients API
     @GET("ingredients.php")
     suspend fun getAllIngredients(): Response<ApiResponse<List<com.example.smartmeal.data.repository.MasterIngredient>>>
@@ -163,8 +174,11 @@ data class ShoppingItem(
     val item_id: String,
     val name: String,
     val quantity: String,
-    val is_completed: Boolean,
+    val is_completed: Int,  // Backend returns 0 or 1
     val category: String?,
     val added_from_recipe_id: String?
-)
+) {
+    val isCompleted: Boolean
+        get() = is_completed == 1
+}
 
