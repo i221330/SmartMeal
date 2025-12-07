@@ -421,9 +421,14 @@ class ActivityHome : AppCompatActivity() {
 
         // Set click listener to view recipe details
         findViewById<CardView>(cardId)?.setOnClickListener {
-            Log.d(TAG, "Recipe card clicked: ${suggestion.title}")
-            Toast.makeText(this, "Recipe details coming soon!", Toast.LENGTH_SHORT).show()
-            // TODO: Navigate to recipe details with recipe_id
+            Log.d(TAG, "Recipe card clicked: ${suggestion.title} (ID: ${suggestion.recipe_id})")
+
+            // Navigate to Recipe Details
+            val intent = Intent(this, ActivityRecipeDetails::class.java).apply {
+                putExtra("RECIPE_ID", suggestion.recipe_id)
+                putExtra("RECIPE_NAME", suggestion.title)
+            }
+            startActivity(intent)
         }
     }
 

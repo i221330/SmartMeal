@@ -221,9 +221,12 @@ class ActivityRecipeList : AppCompatActivity() {
         if (selectForMealType != null && selectForDate != null) {
             showAddToMealDialog(recipe)
         } else {
-            // Just viewing recipe details
-            // TODO: Navigate to recipe details screen
-            Toast.makeText(this, "Recipe details coming soon!", Toast.LENGTH_SHORT).show()
+            // Navigate to recipe details screen
+            val intent = Intent(this, ActivityRecipeDetails::class.java).apply {
+                putExtra("RECIPE_ID", recipe.recipe_id)
+                putExtra("RECIPE_NAME", recipe.title)
+            }
+            startActivity(intent)
         }
     }
 
