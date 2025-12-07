@@ -11,7 +11,7 @@
 
     <!-- Text Colors -->
     <color name="text_light">#111811</color>
-    <color name="text_light_accent">#99112811</color>
+    <color name="text_light_accent">#666666</color>
     <color name="content_light">#111811</color>
 
     <!-- Surface Colors -->

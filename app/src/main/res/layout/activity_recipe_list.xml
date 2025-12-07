@@ -59,6 +59,7 @@
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusBottomStart="8dp"
         app:boxCornerRadiusBottomEnd="8dp"
+        app:hintTextColor="@color/text_light_accent"
         app:startIconDrawable="@android:drawable/ic_menu_search"
         app:layout_constraintTop_toBottomOf="@id/headerLayout">
 
@@ -67,6 +68,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Search recipes..."
+            android:textColor="@color/text_light"
+            android:textColorHint="@color/text_light_accent"
             android:inputType="text"
             android:maxLines="1" />
 
@@ -93,6 +96,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="All"
+                android:textColor="@color/chip_text_color"
+                app:chipBackgroundColor="@color/chip_background_color"
+                app:chipStrokeColor="@color/primary"
+                app:chipStrokeWidth="1dp"
                 android:checked="true"
                 style="@style/Widget.Material3.Chip.Filter" />
 
@@ -101,6 +108,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Breakfast"
+                android:textColor="@color/chip_text_color"
+                app:chipBackgroundColor="@color/chip_background_color"
+                app:chipStrokeColor="@color/primary"
+                app:chipStrokeWidth="1dp"
                 style="@style/Widget.Material3.Chip.Filter" />
 
             <com.google.android.material.chip.Chip
@@ -108,6 +119,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lunch"
+                android:textColor="@color/chip_text_color"
+                app:chipBackgroundColor="@color/chip_background_color"
+                app:chipStrokeColor="@color/primary"
+                app:chipStrokeWidth="1dp"
                 style="@style/Widget.Material3.Chip.Filter" />
 
             <com.google.android.material.chip.Chip
@@ -115,6 +130,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dinner"
+                android:textColor="@color/chip_text_color"
+                app:chipBackgroundColor="@color/chip_background_color"
+                app:chipStrokeColor="@color/primary"
+                app:chipStrokeWidth="1dp"
                 style="@style/Widget.Material3.Chip.Filter" />
 
             <com.google.android.material.chip.Chip
@@ -122,6 +141,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Quick (&lt; 30 min)"
+                android:textColor="@color/chip_text_color"
+                app:chipBackgroundColor="@color/chip_background_color"
+                app:chipStrokeColor="@color/primary"
+                app:chipStrokeWidth="1dp"
                 style="@style/Widget.Material3.Chip.Filter" />
 
         </com.google.android.material.chip.ChipGroup>

@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
+        app:hintTextColor="@color/text_light_accent"
+        app:boxStrokeColor="@color/primary"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -17,6 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Item name (e.g., Milk, Eggs)"
+            android:textColor="@color/text_light"
+            android:textColorHint="@color/text_light_accent"
             android:inputType="text"
             android:maxLines="1" />
 
@@ -25,6 +29,8 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:hintTextColor="@color/text_light_accent"
+        app:boxStrokeColor="@color/primary"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -32,6 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Quantity (e.g., 2 liters, 1 dozen)"
+            android:textColor="@color/text_light"
+            android:textColorHint="@color/text_light_accent"
             android:inputType="text"
             android:maxLines="1" />
 

@@ -54,7 +54,7 @@
                 android:background="@drawable/rounded_corner"
                 android:padding="12dp"
                 android:textColor="@color/background_dark"
-                android:textColorHint="#80112811"
+                android:textColorHint="@color/text_light_accent"
                 android:completionThreshold="1"
                 android:dropDownHeight="wrap_content"
                 android:maxLines="1"

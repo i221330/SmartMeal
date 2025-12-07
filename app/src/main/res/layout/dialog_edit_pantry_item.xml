@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/primary"
-        app:hintTextColor="@color/primary">
+        app:hintTextColor="@color/text_light_accent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/quantityInput"
@@ -58,6 +58,7 @@
             android:hint="e.g., 5 pieces, 1 lb, 2 cups"
             android:textSize="16sp"
             android:textColor="@color/text_light"
+            android:textColorHint="@color/text_light_accent"
             android:padding="12dp"
             android:inputType="text" />
 
