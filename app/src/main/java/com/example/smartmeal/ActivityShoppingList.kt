@@ -345,6 +345,7 @@ class ActivityShoppingList : AppCompatActivity() {
     }
 
     private fun setupBottomNavigation() {
+
         findViewById<View>(R.id.homeNav)?.setOnClickListener {
             startActivity(Intent(this, ActivityHome::class.java))
             finish()
@@ -356,6 +357,9 @@ class ActivityShoppingList : AppCompatActivity() {
         findViewById<View>(R.id.plannerNav)?.setOnClickListener {
             startActivity(Intent(this, ActivityMealPlanner::class.java))
             finish()
+        }
+        findViewById<View>(R.id.shoppingNav)?.setOnClickListener {
+            // Already on shopping list
         }
         findViewById<View>(R.id.profileNav)?.setOnClickListener {
             startActivity(Intent(this, ActivityProfile::class.java))
