@@ -39,6 +39,8 @@ class ActivityShoppingList : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var searchEditText: AutoCompleteTextView
     private lateinit var addItemFab: MaterialButton
+    private lateinit var clearAllButton: MaterialButton
+    private lateinit var deleteAllButton: MaterialButton
 
     private var allItems = listOf<ShoppingItem>()
     private var masterIngredients = listOf<MasterIngredient>()
@@ -72,13 +74,16 @@ class ActivityShoppingList : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         searchEditText = findViewById(R.id.searchEditText)
         addItemFab = findViewById(R.id.addItemFab)
+        clearAllButton = findViewById(R.id.clearAllButton)
+        deleteAllButton = findViewById(R.id.deleteAllButton)
     }
 
     private fun setupRecyclerView() {
         adapter = ShoppingListAdapter(
             emptyList(),
             onItemChecked = { item -> showPurchaseQuantityDialog(item) },
-            onItemDeleted = { item -> confirmDeleteItem(item) }
+            onItemDeleted = { item -> confirmDeleteItem(item) },
+            onItemLongPress = { item -> showItemActionDialog(item) }
         )
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -110,6 +115,24 @@ class ActivityShoppingList : AppCompatActivity() {
 
             // Show dialog to enter quantity
             showQuantityInputDialog(itemName)
+        }
+
+        // Clear All button - Move all items to pantry
+        clearAllButton.setOnClickListener {
+            if (allItems.isEmpty()) {
+                Toast.makeText(this, "Shopping list is empty", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            confirmClearAll()
+        }
+
+        // Delete All button - Delete all items
+        deleteAllButton.setOnClickListener {
+            if (allItems.isEmpty()) {
+                Toast.makeText(this, "Shopping list is empty", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            confirmDeleteAll()
         }
     }
 
@@ -323,6 +346,100 @@ class ActivityShoppingList : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Exception adding custom item", e)
+                Toast.makeText(this@ActivityShoppingList,
+                    "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                showLoading(false)
+            }
+        }
+    }
+
+    private fun showItemActionDialog(item: ShoppingItem) {
+        AlertDialog.Builder(this, R.style.ThemeOverlay_App_MaterialAlertDialog)
+            .setTitle(item.name)
+            .setMessage("What would you like to do?")
+            .setPositiveButton("Mark as Purchased") { _, _ ->
+                showPurchaseQuantityDialog(item)
+            }
+            .setNegativeButton("Delete") { _, _ ->
+                confirmDeleteItem(item)
+            }
+            .setNeutralButton("Cancel", null)
+            .show()
+    }
+
+    private fun confirmClearAll() {
+        AlertDialog.Builder(this, R.style.ThemeOverlay_App_MaterialAlertDialog)
+            .setTitle("Clear All Items?")
+            .setMessage("This will move all ${allItems.size} items to your pantry with their listed quantities. Continue?")
+            .setPositiveButton("Clear All") { _, _ ->
+                clearAllItems()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun clearAllItems() {
+        showLoading(true)
+
+        lifecycleScope.launch {
+            try {
+                val result = repository.clearAllItems(userId)
+
+                result.onSuccess { message ->
+                    Log.d(TAG, "All items cleared to pantry")
+                    Toast.makeText(this@ActivityShoppingList,
+                        "All items added to pantry!", Toast.LENGTH_LONG).show()
+                    loadShoppingList() // Reload list
+                }
+
+                result.onFailure { error ->
+                    Log.e(TAG, "Failed to clear all items", error)
+                    Toast.makeText(this@ActivityShoppingList,
+                        "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                    showLoading(false)
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Exception clearing all items", e)
+                Toast.makeText(this@ActivityShoppingList,
+                    "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                showLoading(false)
+            }
+        }
+    }
+
+    private fun confirmDeleteAll() {
+        AlertDialog.Builder(this, R.style.ThemeOverlay_App_MaterialAlertDialog)
+            .setTitle("Delete All Items?")
+            .setMessage("This will permanently delete all ${allItems.size} items from your shopping list. This action cannot be undone.")
+            .setPositiveButton("Delete All") { _, _ ->
+                deleteAllItems()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun deleteAllItems() {
+        showLoading(true)
+
+        lifecycleScope.launch {
+            try {
+                val result = repository.deleteAllItems(userId)
+
+                result.onSuccess { message ->
+                    Log.d(TAG, "All items deleted")
+                    Toast.makeText(this@ActivityShoppingList,
+                        "All items deleted", Toast.LENGTH_SHORT).show()
+                    loadShoppingList() // Reload list
+                }
+
+                result.onFailure { error ->
+                    Log.e(TAG, "Failed to delete all items", error)
+                    Toast.makeText(this@ActivityShoppingList,
+                        "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                    showLoading(false)
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Exception deleting all items", e)
                 Toast.makeText(this@ActivityShoppingList,
                     "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 showLoading(false)

@@ -108,7 +108,8 @@ class ShoppingListRepository(private val api: SmartMealApiService) {
                 val pantryRequest = AddPantryItemRequest(
                     user_id = userId,
                     name = itemName,
-                    quantity = quantityBought
+                    quantity = quantityBought,
+                    category = "from_shopping"
                 )
 
                 val pantryResponse = api.addPantryItem(pantryRequest)
@@ -180,6 +181,98 @@ class ShoppingListRepository(private val api: SmartMealApiService) {
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Exception adding custom item", e)
+                Result.failure(e)
+            }
+        }
+    }
+
+    /**
+     * Clear all items - Move all shopping list items to pantry
+     */
+    suspend fun clearAllItems(userId: String): Result<String> {
+        return withContext(Dispatchers.IO) {
+            try {
+                Log.d(TAG, "Clearing all items to pantry for user: $userId")
+
+                // First get all items
+                val items = getShoppingList(userId)
+                if (items.isFailure) {
+                    return@withContext Result.failure(Exception("Failed to fetch items"))
+                }
+
+                val shoppingItems = items.getOrNull() ?: emptyList()
+                if (shoppingItems.isEmpty()) {
+                    return@withContext Result.success("No items to clear")
+                }
+
+                // Add each item to pantry and delete from shopping list
+                var successCount = 0
+                for (item in shoppingItems) {
+                    try {
+                        // Add to pantry
+                        val pantryRequest = AddPantryItemRequest(
+                            user_id = userId,
+                            name = item.name,
+                            quantity = item.quantity,
+                            category = "from_shopping"
+                        )
+                        val pantryResponse = api.addPantryItem(pantryRequest)
+
+                        if (pantryResponse.isSuccessful) {
+                            // Delete from shopping list
+                            api.deleteShoppingItem(item.item_id)
+                            successCount++
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Failed to clear item: ${item.name}", e)
+                    }
+                }
+
+                Log.d(TAG, "Cleared $successCount/${shoppingItems.size} items")
+                Result.success("Moved $successCount items to pantry")
+            } catch (e: Exception) {
+                Log.e(TAG, "Exception clearing all items", e)
+                Result.failure(e)
+            }
+        }
+    }
+
+    /**
+     * Delete all items from shopping list
+     */
+    suspend fun deleteAllItems(userId: String): Result<String> {
+        return withContext(Dispatchers.IO) {
+            try {
+                Log.d(TAG, "Deleting all items for user: $userId")
+
+                // First get all items
+                val items = getShoppingList(userId)
+                if (items.isFailure) {
+                    return@withContext Result.failure(Exception("Failed to fetch items"))
+                }
+
+                val shoppingItems = items.getOrNull() ?: emptyList()
+                if (shoppingItems.isEmpty()) {
+                    return@withContext Result.success("No items to delete")
+                }
+
+                // Delete each item
+                var successCount = 0
+                for (item in shoppingItems) {
+                    try {
+                        val response = api.deleteShoppingItem(item.item_id)
+                        if (response.isSuccessful) {
+                            successCount++
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Failed to delete item: ${item.name}", e)
+                    }
+                }
+
+                Log.d(TAG, "Deleted $successCount/${shoppingItems.size} items")
+                Result.success("Deleted $successCount items")
+            } catch (e: Exception) {
+                Log.e(TAG, "Exception deleting all items", e)
                 Result.failure(e)
             }
         }

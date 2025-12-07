@@ -113,6 +113,11 @@
     <string name="add_item_hint">Add Item (e.g., 2 apples)</string>
     <string name="shopping_list_mark_completed">Mark all as completed</string>
     <string name="mark_all_completed">Mark all as completed</string>
+    <string name="clear_all">Clear All</string>
+    <string name="delete_all">Delete All</string>
+    <string name="shopping_cart_emoji">🛒</string>
+    <string name="empty_shopping_list">Your shopping list is empty</string>
+    <string name="empty_shopping_list_subtitle">Add meals or use the input below</string>
     <string name="shopping_list_ground_beef">Ground Beef</string>
     <string name="shopping_list_ground_beef_qty">200g</string>
     <string name="shopping_list_chicken_breast">Chicken Breast</string>

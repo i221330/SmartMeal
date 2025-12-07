@@ -81,6 +81,47 @@
 
     </LinearLayout>
 
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:id="@+id/actionButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/inputLayout">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/clearAllButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="@string/clear_all"
+            android:textColor="@color/text_light"
+            android:backgroundTint="@color/primary"
+            app:cornerRadius="8dp"
+            app:icon="@android:drawable/ic_menu_add"
+            app:iconTint="@color/text_light" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deleteAllButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/delete_all"
+            android:textColor="@color/error"
+            app:cornerRadius="8dp"
+            app:strokeColor="@color/error"
+            app:icon="@android:drawable/ic_menu_delete"
+            app:iconTint="@color/error" />
+
+    </LinearLayout>
+
     <!-- Content Area -->
     <FrameLayout
         android:id="@+id/contentArea"
@@ -88,7 +129,7 @@
         android:layout_height="0dp"
         android:padding="16dp"
         android:paddingBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@id/inputLayout"
+        app:layout_constraintTop_toBottomOf="@id/actionButtonsLayout"
         app:layout_constraintBottom_toTopOf="@id/bottomNavLayout">
 
         <!-- RecyclerView -->
@@ -111,13 +152,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🛒"
+                android:text="@string/shopping_cart_emoji"
                 android:textSize="48sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your shopping list is empty"
+                android:text="@string/empty_shopping_list"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_light"
@@ -126,7 +167,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add meals or use the input below"
+                android:text="@string/empty_shopping_list_subtitle"
                 android:textSize="14sp"
                 android:textColor="#666666"
                 android:gravity="center"

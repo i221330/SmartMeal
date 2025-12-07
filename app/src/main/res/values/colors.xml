@@ -23,6 +23,12 @@
     <color name="accent_green">#19e619</color>
     <color name="accent_green_light">#3319e619</color>
 
+    <!-- Status Colors -->
+    <color name="error">#D32F2F</color>
+    <color name="error_light">#EF5350</color>
+    <color name="success">#388E3C</color>
+    <color name="warning">#F57C00</color>
+
     <!-- AI Assistant Orange Theme -->
     <color name="assistant_primary">#ec7f13</color>
     <color name="assistant_primary_dark">#d66f0f</color>

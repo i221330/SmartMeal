@@ -16,7 +16,8 @@ import com.example.smartmeal.data.api.ShoppingItem
 class ShoppingListAdapter(
     private var items: List<ShoppingItem>,
     private val onItemChecked: (ShoppingItem) -> Unit,
-    private val onItemDeleted: (ShoppingItem) -> Unit
+    private val onItemDeleted: (ShoppingItem) -> Unit,
+    private val onItemLongPress: (ShoppingItem) -> Unit
 ) : RecyclerView.Adapter<ShoppingListAdapter.ViewHolder>() {
 
     private var filteredItems = items
@@ -59,7 +60,7 @@ class ShoppingListAdapter(
             itemQuantity.text = item.quantity
             checkbox.isChecked = item.isCompleted
 
-            // Hide delete button by default
+            // Hide delete button by default (not used with long-press dialog)
             deleteButton.visibility = View.GONE
 
             // Checkbox click - mark as purchased
@@ -71,22 +72,10 @@ class ShoppingListAdapter(
                 }
             }
 
-            // Long press to show delete button
+            // Long press to show action dialog
             itemView.setOnLongClickListener {
-                deleteButton.visibility = View.VISIBLE
+                onItemLongPress(item)
                 true
-            }
-
-            // Delete button
-            deleteButton.setOnClickListener {
-                onItemDeleted(item)
-            }
-
-            // Regular click hides delete button
-            itemView.setOnClickListener {
-                if (deleteButton.visibility == View.VISIBLE) {
-                    deleteButton.visibility = View.GONE
-                }
             }
         }
     }

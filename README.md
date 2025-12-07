@@ -1,113 +1,60 @@
 # SmartMeal - AI-Assisted Recipe & Meal Planner
 
-> **Mobile Application for Software for Mobile Devices Course**
+A comprehensive Android application for recipe management, meal planning, pantry tracking, and intelligent shopping list generation.
 
-A native Android app that helps users manage their pantry, plan weekly meals, maintain shopping lists, and discover recipes based on available ingredients.
+## Quick Links
+- **Full Documentation**: See [PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)
+- **Backend Setup**: See backend/README.md
+- **API Documentation**: See backend/api/README.md
 
----
-
-## 📖 Quick Links
-
-- **Full Documentation**: See [PROJECT_STATUS.md](PROJECT_STATUS.md) for complete project details
-- **Backend API**: `backend/api/` directory
-- **Database Schema**: `backend/database/schema.sql`
-- **Test Scripts**: `test_backend.sh` and `test_connectivity.sh`
-
----
-
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- Android Studio Arctic Fox or later
-- XAMPP (Apache + MySQL + PHP 8.2+)
-- Physical Android device or emulator
-- Java JDK 11+
+- Android Studio (latest version)
+- XAMPP (for PHP backend and MySQL)
+- Android device or emulator (API 24+)
+- Java 17+
 
-### Setup in 3 Steps
-
-#### 1. Start Backend (XAMPP)
+### Running the Backend
 ```bash
-# Start Apache and MySQL servers in XAMPP
-# Import database schema from: backend/database/schema.sql
-# Access PhpMyAdmin: http://localhost/phpmyadmin
+1. Install and start XAMPP
+2. Start Apache and MySQL
+3. Import backend/database/schema.sql to MySQL
+4. Place backend folder in htdocs/smartmeal/
+5. Access at http://localhost/smartmeal/backend/api/
 ```
 
-#### 2. Configure Network
+### Running the App
 ```bash
-# Find your Mac's local IP
-ifconfig | grep "inet " | grep -v 127.0.0.1
-
-# Update in app code:
-# app/src/main/java/com/example/smartmeal/data/api/RetrofitClient.kt
-# Change BASE_URL to: http://YOUR_IP/smartmeal/backend/api/
+1. Open project in Android Studio
+2. Update BASE_URL in ApiConfig.kt with your server IP
+3. Build and run: ./gradlew assembleDebug
+4. Install on device or emulator
 ```
 
-#### 3. Build & Run
-```bash
-# Open in Android Studio
-# Build > Rebuild Project
-# Run > Run 'app'
-```
+## Features
+✅ User authentication (signup/login)  
+✅ Pantry management with autocomplete  
+✅ Smart shopping list with auto-population  
+✅ Weekly meal planner  
+✅ 30+ pre-loaded recipes  
+✅ Pantry-based recipe suggestions (Wow Factor)  
+✅ Offline support with local storage  
+✅ Data sync with PHP/MySQL backend  
 
----
+## Architecture
+- **Pattern**: MVVM (Model-View-ViewModel)
+- **Local DB**: Room (SQLite)
+- **Network**: Retrofit + OkHttp
+- **Async**: Kotlin Coroutines + Flow
+- **Backend**: PHP 8.2 + MySQL
 
-## 🎯 Current Status
+## Project Status
+See [PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md) for detailed implementation status and roadmap.
 
-**✅ Completed (85%):**
-- Authentication (Login/Signup)
-- Home Screen with Recipe Suggestions
-- Pantry Management (Full CRUD)
-- Shopping List (Full CRUD)
-- Meal Planner (Add meals)
-- Recipe List & Details
-- PHP/MySQL Backend APIs
+## License
+Academic Project - Software for Mobile Devices Course
 
-**🚨 Critical Missing (15%):**
-- Local Storage (Room Database)
-- Data Synchronization
-- Image Upload/Download
-- Push Notifications
-
-**See [PROJECT_STATUS.md](PROJECT_STATUS.md) for complete checklist.**
-
----
-
-## 📱 Features
-
-- ✅ Browse 30+ recipes with search/filter
-- ✅ Manage pantry ingredients
-- ✅ Plan weekly meals (7 days)
-- ✅ Auto-generate shopping lists
-- ✅ Pantry-based recipe suggestions (Wow Factor!)
-- ✅ Works with PHP/MySQL backend
-- ⚠️ Offline mode (in progress)
-- ⚠️ Push notifications (in progress)
-
----
-
-## 🛠️ Tech Stack
-
-**Frontend:** Kotlin, Material Design 3, Retrofit, Room (planned), FCM  
-**Backend:** PHP 8.2, MySQL 8.0, Apache  
-**Architecture:** MVVM with Repository Pattern
-
----
-
-## 📞 Testing
-
-```bash
-# Test backend connectivity
-./test_connectivity.sh
-
-# Test PHP APIs
-./test_backend.sh
-```
-
----
-
-## 📄 License
-
-Academic project for educational purposes.
-
-**Last Updated:** December 7, 2025
+## Author
+Daniyal Khawar - December 2025
 
