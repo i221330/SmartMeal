@@ -607,37 +607,55 @@ class ActivityProfile : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 currentUser?.let { user ->
-                    // Update locally first
-                    val updatedUser = user.copy(displayName = newName)
-                    repository.userDao().updateUser(updatedUser)
-                    currentUser = updatedUser
+                    Log.d(TAG, "═══════════════════════════════════════")
+                    Log.d(TAG, "updateUserName: Starting name update")
+                    Log.d(TAG, "  - User ID: ${user.uid}")
+                    Log.d(TAG, "  - Old name: ${user.displayName}")
+                    Log.d(TAG, "  - New name: $newName")
 
-                    withContext(Dispatchers.Main) {
-                        nameTextView.text = newName
-                        Toast.makeText(this@ActivityProfile, "Name updated successfully", Toast.LENGTH_SHORT).show()
-                    }
+                    // Sync to server FIRST
+                    Log.d(TAG, "  - Step 1: Syncing to server...")
+                    val result = repository.updateUserProfile(
+                        userId = user.uid,
+                        displayName = newName
+                    )
 
-                    Log.d(TAG, "User name updated locally to: $newName")
+                    if (result.isSuccess) {
+                        Log.d(TAG, "  ✓ Server update successful!")
 
-                    // Sync to server
-                    try {
-                        val result = repository.updateUserProfile(
-                            userId = user.uid,
-                            displayName = newName
-                        )
-                        if (result.isSuccess) {
-                            Log.d(TAG, "User name synced to server successfully")
-                        } else {
-                            Log.w(TAG, "Failed to sync user name to server: ${result.exceptionOrNull()?.message}")
+                        // Update local database only after server confirms success
+                        Log.d(TAG, "  - Step 2: Updating local database...")
+                        val updatedUser = user.copy(displayName = newName)
+                        repository.userDao().updateUser(updatedUser)
+                        currentUser = updatedUser
+                        Log.d(TAG, "  ✓ Local database updated")
+
+                        withContext(Dispatchers.Main) {
+                            nameTextView.text = newName
+                            Toast.makeText(this@ActivityProfile, "Name updated successfully", Toast.LENGTH_SHORT).show()
                         }
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Error syncing user name to server", e)
+                        Log.d(TAG, "  ✓ Name update complete!")
+                    } else {
+                        val errorMsg = result.exceptionOrNull()?.message ?: "Unknown error"
+                        Log.e(TAG, "  ✗ Server update failed: $errorMsg")
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                this@ActivityProfile,
+                                "Failed to update name: $errorMsg",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
+                    Log.d(TAG, "═══════════════════════════════════════")
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error updating user name", e)
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@ActivityProfile, "Error updating name", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@ActivityProfile,
+                        "Error updating name: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

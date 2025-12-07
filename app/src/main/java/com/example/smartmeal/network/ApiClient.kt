@@ -1,5 +1,6 @@
 package com.example.smartmeal.network
 
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -22,10 +23,15 @@ object ApiClient {
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
+    // Create Gson instance that serializes null values
+    private val gson = GsonBuilder()
+        .serializeNulls()
+        .create()
+
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 
     val userService: UserApiService = retrofit.create(UserApiService::class.java)
