@@ -107,18 +107,33 @@ class PhpAuthRepository(private val userDao: UserDao) {
 
                 val userData = body.user
                 if (userData != null) {
+                    Log.d(TAG, "═══════════════════════════════════════")
+                    Log.d(TAG, "Login: Server response received")
+                    Log.d(TAG, "  - user_id: ${userData.user_id}")
+                    Log.d(TAG, "  - email: ${userData.email}")
+                    Log.d(TAG, "  - display_name: ${userData.display_name}")
+                    Log.d(TAG, "  - profile_image_url: '${userData.profile_image_url}'")
+                    Log.d(TAG, "  - profile_image_url is null: ${userData.profile_image_url == null}")
+                    Log.d(TAG, "  - profile_image_url is empty: ${userData.profile_image_url?.isEmpty()}")
+                    Log.d(TAG, "═══════════════════════════════════════")
+
+                    // IMPORTANT: Keep the profile_image_url from server as-is
+                    // The ActivityProfile will check if the file exists and restore it if needed
+                    val profileImageUrl = userData.profile_image_url
+
                     val user = User(
                         uid = userData.user_id ?: userData.email ?: email,
                         email = userData.email ?: email,
                         displayName = userData.display_name,
                         phoneNumber = userData.phone_number,
-                        profileImageUrl = userData.profile_image_url,
+                        profileImageUrl = profileImageUrl,
                         joinedDate = System.currentTimeMillis()
                     )
 
                     // Save to local database
                     userDao.insertUser(user)
                     Log.d(TAG, "User saved to local DB")
+                    Log.d(TAG, "  - Saved profileImageUrl: '${user.profileImageUrl}'")
 
                     Result.success(user)
                 } else {
@@ -147,6 +162,90 @@ class PhpAuthRepository(private val userDao: UserDao) {
             Log.d(TAG, "User signed out, local data cleared")
         } catch (e: Exception) {
             Log.e(TAG, "Error signing out", e)
+        }
+    }
+
+    suspend fun updateUserProfile(
+        userId: String,
+        displayName: String? = null,
+        phoneNumber: String? = null,
+        profileImageUrl: String? = null
+    ): Result<User> = withContext(Dispatchers.IO) {
+        return@withContext try {
+            Log.d(TAG, "════════════════════════════════════════")
+            Log.d(TAG, "updateUserProfile: Starting")
+            Log.d(TAG, "  - userId: $userId")
+            Log.d(TAG, "  - displayName: $displayName")
+            Log.d(TAG, "  - phoneNumber: $phoneNumber")
+            Log.d(TAG, "  - profileImageUrl: $profileImageUrl")
+            Log.d(TAG, "  - API URL: ${ApiClient.BASE_URL}users.php?action=profile")
+
+            val request = com.example.smartmeal.network.models.UserProfileUpdateRequest(
+                userId = userId,
+                displayName = displayName,
+                phoneNumber = phoneNumber,
+                profileImageUrl = profileImageUrl
+            )
+
+            Log.d(TAG, "  - Request object created, making API call...")
+
+            val response = withTimeout(TIMEOUT_MS) {
+                ApiClient.userService.updateUserProfile(request)
+            }
+
+            Log.d(TAG, "  - API call completed")
+            Log.d(TAG, "  - Response code: ${response.code()}")
+            Log.d(TAG, "  - Response successful: ${response.isSuccessful}")
+
+            if (response.isSuccessful && response.body() != null) {
+                val body = response.body()!!
+                Log.d(TAG, "  ✓ Profile update successful!")
+                Log.d(TAG, "  - Server message: ${body.message}")
+
+                // Update local database
+                val currentUser = userDao.getCurrentUser()
+                if (currentUser != null) {
+                    val updatedUser = currentUser.copy(
+                        displayName = displayName ?: currentUser.displayName,
+                        phoneNumber = phoneNumber ?: currentUser.phoneNumber,
+                        profileImageUrl = if (profileImageUrl != null) {
+                            // If profileImageUrl is explicitly provided (even if empty), use it
+                            if (profileImageUrl.isEmpty()) null else profileImageUrl
+                        } else {
+                            // If profileImageUrl is not provided, keep the current value
+                            currentUser.profileImageUrl
+                        }
+                    )
+                    userDao.updateUser(updatedUser)
+                    Log.d(TAG, "  ✓ Local database updated")
+                    Log.d(TAG, "  - New profileImageUrl in DB: '${updatedUser.profileImageUrl}'")
+                    Log.d(TAG, "════════════════════════════════════════")
+                    Result.success(updatedUser)
+                } else {
+                    Log.e(TAG, "  ✗ No user found in local database")
+                    Log.d(TAG, "════════════════════════════════════════")
+                    Result.failure(Exception("No user found in local database"))
+                }
+            } else {
+                val errorMsg = response.errorBody()?.string() ?: "Profile update failed"
+                Log.e(TAG, "  ✗ Profile update failed!")
+                Log.e(TAG, "  - Error response: $errorMsg")
+                Log.d(TAG, "════════════════════════════════════════")
+                Result.failure(Exception(errorMsg))
+            }
+        } catch (e: SocketTimeoutException) {
+            Log.e(TAG, "  ✗ Timeout - server not responding")
+            Log.d(TAG, "════════════════════════════════════════")
+            Result.failure(Exception("Connection timeout. Is XAMPP running?"))
+        } catch (e: ConnectException) {
+            Log.e(TAG, "  ✗ Connection failed - cannot reach server")
+            Log.d(TAG, "════════════════════════════════════════")
+            Result.failure(Exception("Cannot connect to server. Check XAMPP and network."))
+        } catch (e: Exception) {
+            Log.e(TAG, "  ✗ Exception: ${e.javaClass.simpleName}")
+            Log.e(TAG, "  - Message: ${e.message}")
+            Log.d(TAG, "════════════════════════════════════════")
+            Result.failure(Exception("Update error: ${e.message}"))
         }
     }
 

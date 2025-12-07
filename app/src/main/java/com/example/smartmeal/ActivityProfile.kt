@@ -24,7 +24,11 @@ import com.example.smartmeal.viewmodel.PhpAuthViewModel
 import com.example.smartmeal.viewmodel.PhpAuthViewModelFactory
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -60,9 +64,8 @@ class ActivityProfile : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             result.data?.data?.let { uri ->
                 selectedImageUri = uri
-                loadProfileImage(uri.toString())
-                saveProfileImageUri(uri.toString())
-                Toast.makeText(this, R.string.profile_picture_updated, Toast.LENGTH_SHORT).show()
+                // Copy image to internal storage for persistence
+                copyImageToInternalStorage(uri)
             }
         }
     }
@@ -122,6 +125,17 @@ class ActivityProfile : AppCompatActivity() {
                 currentUser = repository.getCurrentUser()
 
                 if (currentUser != null) {
+                    Log.d(TAG, "═══════════════════════════════════════")
+                    Log.d(TAG, "loadUserData: User loaded")
+                    Log.d(TAG, "  - UID: ${currentUser!!.uid}")
+                    Log.d(TAG, "  - Email: ${currentUser!!.email}")
+                    Log.d(TAG, "  - Display Name: ${currentUser!!.displayName}")
+                    Log.d(TAG, "  - Profile Image URL: ${currentUser!!.profileImageUrl}")
+                    Log.d(TAG, "═══════════════════════════════════════")
+
+                    // Check if we need to restore local profile image
+                    checkAndRestoreProfileImage()
+
                     updateUI(currentUser!!)
                 } else {
                     Log.w(TAG, "No user data found in database")
@@ -132,6 +146,104 @@ class ActivityProfile : AppCompatActivity() {
                 Log.e(TAG, "Error loading user data", e)
                 showDefaultProfile()
             }
+        }
+    }
+
+    /**
+     * Check if a profile image file exists locally but isn't in the database OR
+     * if the database has a path that doesn't match the actual file location
+     * This can happen after logout/login on the same device
+     */
+    private suspend fun checkAndRestoreProfileImage() = withContext(Dispatchers.IO) {
+        try {
+            val user = currentUser ?: return@withContext
+
+            Log.d(TAG, "════════════════════════════════════════════════")
+            Log.d(TAG, "checkAndRestoreProfileImage: Starting check")
+            Log.d(TAG, "  - User ID: ${user.uid}")
+            Log.d(TAG, "  - Current profileImageUrl in DB: '${user.profileImageUrl}'")
+
+            val fileName = "profile_${user.uid}.jpg"
+            val expectedFile = File(filesDir, fileName)
+            Log.d(TAG, "  - Expected file path: ${expectedFile.absolutePath}")
+            Log.d(TAG, "  - Expected file exists: ${expectedFile.exists()}")
+
+            // Case 1: Database has a profile image URL
+            if (!user.profileImageUrl.isNullOrEmpty()) {
+                val currentFile = File(user.profileImageUrl)
+                Log.d(TAG, "  - DB has profileImageUrl, checking file...")
+                Log.d(TAG, "  - File path in DB: ${currentFile.absolutePath}")
+                Log.d(TAG, "  - File exists: ${currentFile.exists()}")
+
+                if (currentFile.exists()) {
+                    Log.d(TAG, "  ✓ Profile image file exists at DB path, all good!")
+                    return@withContext
+                } else {
+                    Log.w(TAG, "  ✗ File in DB doesn't exist, checking expected location...")
+
+                    // Check if file exists at expected location
+                    if (expectedFile.exists()) {
+                        Log.d(TAG, "  ✓ Found file at expected location! Updating DB...")
+                        val correctPath = expectedFile.absolutePath
+
+                        // Update local database with correct path
+                        val updatedUser = user.copy(profileImageUrl = correctPath)
+                        repository.userDao().updateUser(updatedUser)
+                        currentUser = updatedUser
+                        Log.d(TAG, "  ✓ Updated local DB with correct path")
+
+                        // Sync to server
+                        syncProfileImageToServer(user.uid, correctPath)
+                    } else {
+                        Log.w(TAG, "  ✗ File not found at expected location either, clearing DB")
+                        // Clear invalid URL from database
+                        val updatedUser = user.copy(profileImageUrl = null)
+                        repository.userDao().updateUser(updatedUser)
+                        currentUser = updatedUser
+                    }
+                }
+            } else {
+                // Case 2: Database has no profile image URL, check if file exists
+                Log.d(TAG, "  - DB has no profileImageUrl, checking for local file...")
+
+                if (expectedFile.exists()) {
+                    Log.d(TAG, "  ✓ Found local profile image file! Restoring to DB...")
+                    val correctPath = expectedFile.absolutePath
+
+                    // Update local database
+                    val updatedUser = user.copy(profileImageUrl = correctPath)
+                    repository.userDao().updateUser(updatedUser)
+                    currentUser = updatedUser
+                    Log.d(TAG, "  ✓ Profile image restored to local database")
+
+                    // Sync to server
+                    syncProfileImageToServer(user.uid, correctPath)
+                } else {
+                    Log.d(TAG, "  - No local profile image file found")
+                }
+            }
+
+            Log.d(TAG, "checkAndRestoreProfileImage: Complete")
+            Log.d(TAG, "════════════════════════════════════════════════")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error checking/restoring profile image", e)
+        }
+    }
+
+    private suspend fun syncProfileImageToServer(userId: String, imagePath: String) {
+        try {
+            Log.d(TAG, "Syncing profile image to server: userId=$userId, path=$imagePath")
+            val result = repository.updateUserProfile(
+                userId = userId,
+                profileImageUrl = imagePath
+            )
+            if (result.isSuccess) {
+                Log.d(TAG, "✓ Profile image URL synced to server successfully")
+            } else {
+                Log.w(TAG, "✗ Failed to sync profile image to server: ${result.exceptionOrNull()?.message}")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "✗ Exception syncing profile image to server", e)
         }
     }
 
@@ -152,14 +264,26 @@ class ActivityProfile : AppCompatActivity() {
         val joinedYear = formatJoinedDate(user.joinedDate)
         joinedTextView.text = "Joined $joinedYear"
 
-        // Profile image
-        val savedImageUri = sharedPreferences.getString("profile_image_uri", null)
-        if (savedImageUri != null) {
-            loadProfileImage(savedImageUri)
-        } else if (!user.profileImageUrl.isNullOrEmpty()) {
-            loadProfileImage(user.profileImageUrl)
+        // Profile image - prioritize database value
+        Log.d(TAG, "updateUI: Starting profile image load")
+        Log.d(TAG, "  - profileImageUrl from DB: '${user.profileImageUrl}'")
+        if (!user.profileImageUrl.isNullOrEmpty()) {
+            val file = File(user.profileImageUrl)
+            Log.d(TAG, "  - File path: ${file.absolutePath}")
+            Log.d(TAG, "  - File exists: ${file.exists()}")
+            Log.d(TAG, "  - File can read: ${file.canRead()}")
+            Log.d(TAG, "  - File length: ${file.length()} bytes")
+
+            if (file.exists()) {
+                Log.d(TAG, "  ✓ Loading profile image from file")
+                loadProfileImage(user.profileImageUrl)
+            } else {
+                Log.w(TAG, "  ✗ Profile image file not found, using default")
+                profileImageView.setImageResource(R.drawable.ic_profile_default)
+            }
         } else {
             // Use default avatar
+            Log.d(TAG, "  - No profile image URL in database, using default")
             profileImageView.setImageResource(R.drawable.ic_profile_default)
         }
     }
@@ -183,12 +307,19 @@ class ActivityProfile : AppCompatActivity() {
 
     private fun loadProfileImage(imageUrl: String) {
         try {
-            Glide.with(this)
+            val requestBuilder = Glide.with(this)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_profile_default)
                 .error(R.drawable.ic_profile_default)
                 .circleCrop()
-                .into(profileImageView)
+
+            // Skip cache for internal storage files to ensure fresh images
+            if (imageUrl.startsWith("/data/")) {
+                requestBuilder.skipMemoryCache(true)
+                    .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.NONE)
+            }
+
+            requestBuilder.into(profileImageView)
         } catch (e: Exception) {
             Log.e(TAG, "Error loading profile image", e)
             profileImageView.setImageResource(R.drawable.ic_profile_default)
@@ -230,12 +361,181 @@ class ActivityProfile : AppCompatActivity() {
 
     private fun removeProfilePicture() {
         profileImageView.setImageResource(R.drawable.ic_profile_default)
-        sharedPreferences.edit().remove("profile_image_uri").apply()
+
+        // Remove from database and delete file
+        lifecycleScope.launch {
+            try {
+                currentUser?.let { user ->
+                    // Delete the image file from internal storage
+                    val fileName = "profile_${user.uid}.jpg"
+                    val file = File(filesDir, fileName)
+                    if (file.exists()) {
+                        file.delete()
+                        Log.d(TAG, "Profile image file deleted")
+                    }
+
+                    // Update database
+                    val updatedUser = user.copy(profileImageUrl = null)
+                    repository.userDao().updateUser(updatedUser)
+                    currentUser = updatedUser
+                    Log.d(TAG, "Profile image removed from database")
+
+                    // Sync to server
+                    try {
+                        val result = repository.updateUserProfile(
+                            userId = user.uid,
+                            profileImageUrl = ""  // Empty string to clear server-side
+                        )
+                        if (result.isSuccess) {
+                            Log.d(TAG, "Profile image removal synced to server successfully")
+                        } else {
+                            Log.w(TAG, "Failed to sync profile image removal to server: ${result.exceptionOrNull()?.message}")
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error syncing profile image removal to server", e)
+                    }
+                }
+
+                // Clear SharedPreferences
+                sharedPreferences.edit().remove("profile_image_uri").apply()
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Error removing profile image", e)
+            }
+        }
+
         Toast.makeText(this, "Profile picture removed", Toast.LENGTH_SHORT).show()
     }
 
+    private fun copyImageToInternalStorage(sourceUri: Uri) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                // Read image from source URI
+                val inputStream = contentResolver.openInputStream(sourceUri)
+                if (inputStream == null) {
+                    Log.e(TAG, "Failed to open input stream for URI: $sourceUri")
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@ActivityProfile, "Failed to load image", Toast.LENGTH_SHORT).show()
+                    }
+                    return@launch
+                }
+
+                // Create a file in internal storage
+                val fileName = "profile_${currentUser?.uid ?: "default"}.jpg"
+                val file = File(filesDir, fileName)
+
+                // Delete old file if it exists to ensure fresh save
+                if (file.exists()) {
+                    file.delete()
+                    Log.d(TAG, "Deleted old profile image file")
+                    // Clear disk cache on IO thread
+                    Glide.get(this@ActivityProfile).clearDiskCache()
+                }
+
+                // Copy the image
+                val outputStream = FileOutputStream(file)
+                inputStream.use { input ->
+                    outputStream.use { output ->
+                        input.copyTo(output)
+                    }
+                }
+
+                // Get the internal file URI
+                val internalUri = file.absolutePath
+                Log.d(TAG, "════════════════════════════════════════")
+                Log.d(TAG, "Image saved to internal storage")
+                Log.d(TAG, "  - Path: $internalUri")
+                Log.d(TAG, "  - File exists: ${file.exists()}")
+                Log.d(TAG, "  - File size: ${file.length()} bytes")
+                Log.d(TAG, "════════════════════════════════════════")
+
+                // Save to database FIRST (while still on IO thread)
+                try {
+                    currentUser?.let { user ->
+                        Log.d(TAG, "Updating local database for user: ${user.uid}")
+                        val updatedUser = user.copy(profileImageUrl = internalUri)
+                        repository.userDao().updateUser(updatedUser)
+                        currentUser = updatedUser
+                        Log.d(TAG, "✓ Profile image URI saved to local database")
+
+                        // Sync to server
+                        try {
+                            Log.d(TAG, "═══ SYNCING TO SERVER ═══")
+                            Log.d(TAG, "  - User ID: ${user.uid}")
+                            Log.d(TAG, "  - Image URL: $internalUri")
+                            val result = repository.updateUserProfile(
+                                userId = user.uid,
+                                profileImageUrl = internalUri
+                            )
+                            if (result.isSuccess) {
+                                Log.d(TAG, "✓✓✓ Profile image URL synced to server successfully!")
+                                Log.d(TAG, "═══════════════════════════════════════")
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(this@ActivityProfile, "✓ Profile saved and synced!", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                val errorMsg = result.exceptionOrNull()?.message ?: "Unknown error"
+                                Log.e(TAG, "✗✗✗ Failed to sync profile image to server!")
+                                Log.e(TAG, "  - Error: $errorMsg")
+                                Log.e(TAG, "═══════════════════════════════════════")
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(this@ActivityProfile, "⚠ Saved locally but sync failed", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "✗✗✗ Exception syncing profile image to server!")
+                            Log.e(TAG, "  - Exception: ${e.javaClass.simpleName}")
+                            Log.e(TAG, "  - Message: ${e.message}")
+                            Log.e(TAG, "═══════════════════════════════════════")
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(this@ActivityProfile, "⚠ Server sync error (saved locally)", Toast.LENGTH_SHORT).show()
+                            }
+                            // Don't fail the operation if server sync fails
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error saving profile image to database", e)
+                }
+
+                // Switch to main thread for UI updates
+                withContext(Dispatchers.Main) {
+                    // Save to SharedPreferences
+                    sharedPreferences.edit().putString("profile_image_uri", internalUri).apply()
+
+                    // Clear Glide cache for this file to force reload
+                    Glide.get(this@ActivityProfile).clearMemory()
+
+                    // Load the image
+                    loadProfileImage(internalUri)
+                    Toast.makeText(this@ActivityProfile, R.string.profile_picture_updated, Toast.LENGTH_SHORT).show()
+                }
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Error copying image to internal storage", e)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@ActivityProfile, "Failed to save image", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
     private fun saveProfileImageUri(uri: String) {
+        // Save to SharedPreferences for immediate access
         sharedPreferences.edit().putString("profile_image_uri", uri).apply()
+
+        // Save to database for persistence across logout/login
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                currentUser?.let { user ->
+                    val updatedUser = user.copy(profileImageUrl = uri)
+                    repository.userDao().updateUser(updatedUser)
+                    currentUser = updatedUser
+                    Log.d(TAG, "Profile image URI saved to database: $uri")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error saving profile image to database", e)
+            }
+        }
     }
 
     private fun loadNotificationPreference() {
@@ -307,16 +607,38 @@ class ActivityProfile : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 currentUser?.let { user ->
+                    // Update locally first
                     val updatedUser = user.copy(displayName = newName)
                     repository.userDao().updateUser(updatedUser)
                     currentUser = updatedUser
-                    nameTextView.text = newName
-                    Toast.makeText(this@ActivityProfile, "Name updated successfully", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "User name updated to: $newName")
+
+                    withContext(Dispatchers.Main) {
+                        nameTextView.text = newName
+                        Toast.makeText(this@ActivityProfile, "Name updated successfully", Toast.LENGTH_SHORT).show()
+                    }
+
+                    Log.d(TAG, "User name updated locally to: $newName")
+
+                    // Sync to server
+                    try {
+                        val result = repository.updateUserProfile(
+                            userId = user.uid,
+                            displayName = newName
+                        )
+                        if (result.isSuccess) {
+                            Log.d(TAG, "User name synced to server successfully")
+                        } else {
+                            Log.w(TAG, "Failed to sync user name to server: ${result.exceptionOrNull()?.message}")
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error syncing user name to server", e)
+                    }
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error updating user name", e)
-                Toast.makeText(this@ActivityProfile, "Error updating name", Toast.LENGTH_SHORT).show()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@ActivityProfile, "Error updating name", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

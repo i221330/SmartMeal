@@ -13,6 +13,9 @@ interface UserApiService {
 
     @GET("users.php?action=profile")
     suspend fun getUserProfile(@Query("firebase_uid") firebaseUid: String): Response<UserData>
+
+    @PUT("users.php?action=profile")
+    suspend fun updateUserProfile(@Body request: UserProfileUpdateRequest): Response<UserUpdateResponse>
 }
 
 interface RecipeApiService {

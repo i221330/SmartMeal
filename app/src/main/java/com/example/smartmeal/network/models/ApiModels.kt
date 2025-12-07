@@ -36,6 +36,18 @@ data class UserLoginResponse(
     val user: UserData? = null
 )
 
+data class UserProfileUpdateRequest(
+    @SerializedName("user_id") val userId: String,
+    @SerializedName("display_name") val displayName: String? = null,
+    @SerializedName("phone_number") val phoneNumber: String? = null,
+    @SerializedName("profile_image_url") val profileImageUrl: String? = null
+)
+
+data class UserUpdateResponse(
+    val message: String,
+    val user: UserData? = null
+)
+
 data class UserData(
     val id: Int? = null,
     @SerializedName("user_id") val user_id: String? = null,

@@ -56,6 +56,15 @@ try {
             }
             break;
 
+        case 'PUT':
+            if ($action == 'profile') {
+                updateUserProfile($db);
+            } else {
+                http_response_code(400);
+                echo json_encode(["message" => "Invalid action"]);
+            }
+            break;
+
         case 'GET':
             if ($action == 'profile') {
                 getUserProfile($db);
@@ -70,7 +79,8 @@ try {
                     "endpoints" => [
                         "POST ?action=register" => "Register new user",
                         "POST ?action=login" => "Login user",
-                        "GET ?action=profile&user_id=xxx" => "Get user profile"
+                        "GET ?action=profile&user_id=xxx" => "Get user profile",
+                        "PUT ?action=profile" => "Update user profile"
                     ]
                 ]);
             }
@@ -251,6 +261,117 @@ function getUserProfile($db) {
     } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(["message" => "Error: " . $e->getMessage()]);
+    }
+}
+
+function updateUserProfile($db) {
+    error_log("═══════════════════════════════════════");
+    error_log("updateUserProfile: Function called");
+
+    $data = json_decode(file_get_contents("php://input"));
+
+    error_log("updateUserProfile: Request data received");
+    error_log("  - user_id: " . ($data->user_id ?? 'NOT SET'));
+    error_log("  - display_name: " . ($data->display_name ?? 'NOT SET'));
+    error_log("  - phone_number: " . ($data->phone_number ?? 'NOT SET'));
+    error_log("  - profile_image_url: " . ($data->profile_image_url ?? 'NOT SET'));
+
+    if (!isset($data->user_id)) {
+        error_log("updateUserProfile: ERROR - user_id not provided");
+        http_response_code(400);
+        echo json_encode(["message" => "User ID required"]);
+        return;
+    }
+
+    try {
+        // Build dynamic update query based on provided fields
+        $updates = [];
+        $params = [":user_id" => $data->user_id];
+
+        if (isset($data->display_name)) {
+            $updates[] = "display_name = :display_name";
+            $params[":display_name"] = $data->display_name;
+            error_log("  → Will update display_name");
+        }
+
+        if (isset($data->phone_number)) {
+            $updates[] = "phone_number = :phone_number";
+            $params[":phone_number"] = $data->phone_number;
+            error_log("  → Will update phone_number");
+        }
+
+        if (isset($data->profile_image_url)) {
+            $updates[] = "profile_image_url = :profile_image_url";
+            $params[":profile_image_url"] = $data->profile_image_url;
+            error_log("  → Will update profile_image_url to: " . $data->profile_image_url);
+        }
+
+        if (empty($updates)) {
+            error_log("updateUserProfile: ERROR - No fields to update");
+            http_response_code(400);
+            echo json_encode(["message" => "No fields to update"]);
+            return;
+        }
+
+        $query = "UPDATE users SET " . implode(", ", $updates) . " WHERE firebase_uid = :user_id";
+        error_log("updateUserProfile: SQL Query: $query");
+
+        $stmt = $db->prepare($query);
+
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+
+        if ($stmt->execute()) {
+            $rowCount = $stmt->rowCount();
+            error_log("updateUserProfile: ✓ SQL Execute successful!");
+            error_log("  - Rows affected: $rowCount");
+
+            // Fetch updated user data
+            $selectQuery = "SELECT * FROM users WHERE firebase_uid = :user_id LIMIT 1";
+            $selectStmt = $db->prepare($selectQuery);
+            $selectStmt->bindParam(":user_id", $data->user_id);
+            $selectStmt->execute();
+
+            if ($selectStmt->rowCount() > 0) {
+                $user = $selectStmt->fetch(PDO::FETCH_ASSOC);
+                error_log("updateUserProfile: ✓ User data fetched");
+                error_log("  - profile_image_url in DB: " . ($user['profile_image_url'] ?? 'NULL'));
+                error_log("═══════════════════════════════════════");
+
+                http_response_code(200);
+                echo json_encode([
+                    "message" => "Profile updated successfully",
+                    "user" => [
+                        "user_id" => $user['firebase_uid'],
+                        "email" => $user['email'],
+                        "display_name" => $user['display_name'],
+                        "phone_number" => $user['phone_number'],
+                        "profile_image_url" => $user['profile_image_url'],
+                        "is_premium" => (bool)$user['is_premium'],
+                        "joined_date" => $user['joined_date']
+                    ]
+                ]);
+            } else {
+                error_log("updateUserProfile: WARNING - User not found after update");
+                error_log("═══════════════════════════════════════");
+                http_response_code(200);
+                echo json_encode(["message" => "Profile updated successfully"]);
+            }
+        } else {
+            error_log("updateUserProfile: ✗ SQL Execute failed");
+            error_log("  - Error info: " . print_r($stmt->errorInfo(), true));
+            error_log("═══════════════════════════════════════");
+            http_response_code(500);
+            echo json_encode(["message" => "Unable to update profile"]);
+        }
+    } catch (Exception $e) {
+        error_log("updateUserProfile: ✗ Exception - " . $e->getMessage());
+        error_log("  - File: " . $e->getFile());
+        error_log("  - Line: " . $e->getLine());
+        error_log("═══════════════════════════════════════");
+        http_response_code(500);
+        echo json_encode(["message" => "Update error: " . $e->getMessage()]);
     }
 }
 ?>
