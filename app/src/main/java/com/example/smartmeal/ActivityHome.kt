@@ -4,14 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.smartmeal.data.api.MealPlan
 import com.example.smartmeal.data.api.RecipeSuggestion
+import com.example.smartmeal.data.api.RetrofitClient
 import com.example.smartmeal.data.repository.HomeRepository
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
@@ -146,8 +148,9 @@ class ActivityHome : AppCompatActivity() {
             try {
                 Log.d(TAG, "Loading today's meals...")
 
-                // Get today's date in YYYY-MM-DD format
-                val today = SimpleDateFormat("yyyy-MM-DD", Locale.getDefault()).format(Date())
+                // Get today's date in YYYY-MM-DD format (fixed: use dd for day of month)
+                val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+                Log.d(TAG, "Today's date: $today")
 
                 val result = homeRepository.getTodaysMeals(userId, today)
 
@@ -169,24 +172,149 @@ class ActivityHome : AppCompatActivity() {
 
     private fun updateTodaysMealsUI(breakfast: MealPlan?, lunch: MealPlan?, dinner: MealPlan?) {
         // Update breakfast
-        findViewById<TextView>(R.id.breakfastTitle)?.text =
-            breakfast?.recipe_name ?: "No meal planned"
+        if (breakfast != null && breakfast.recipe_id.isNotEmpty()) {
+            fetchAndDisplayRecipeDetails(breakfast, "breakfast")
+            setMealClickListener(breakfast, "breakfast")
+        } else {
+            showEmptyMeal("breakfast")
+            setEmptyMealClickListener("breakfast")
+        }
 
         // Update lunch
-        findViewById<TextView>(R.id.lunchTitle)?.text =
-            lunch?.recipe_name ?: "No meal planned"
+        if (lunch != null && lunch.recipe_id.isNotEmpty()) {
+            fetchAndDisplayRecipeDetails(lunch, "lunch")
+            setMealClickListener(lunch, "lunch")
+        } else {
+            showEmptyMeal("lunch")
+            setEmptyMealClickListener("lunch")
+        }
 
         // Update dinner
-        findViewById<TextView>(R.id.dinnerTitle)?.text =
-            dinner?.recipe_name ?: "No meal planned"
+        if (dinner != null && dinner.recipe_id.isNotEmpty()) {
+            fetchAndDisplayRecipeDetails(dinner, "dinner")
+            setMealClickListener(dinner, "dinner")
+        } else {
+            showEmptyMeal("dinner")
+            setEmptyMealClickListener("dinner")
+        }
 
         Log.d(TAG, "UI updated - Breakfast: ${breakfast?.recipe_name}, Lunch: ${lunch?.recipe_name}, Dinner: ${dinner?.recipe_name}")
     }
 
+    private fun fetchAndDisplayRecipeDetails(mealPlan: MealPlan, mealType: String) {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.api.getRecipeDetail(recipeId = mealPlan.recipe_id)
+
+                if (response.isSuccessful && response.body() != null && response.body()!!.success) {
+                    val recipe = response.body()!!.data
+
+                    if (recipe != null) {
+                        // Get view IDs based on meal type
+                        val titleId = when(mealType) {
+                            "breakfast" -> R.id.breakfastTitle
+                            "lunch" -> R.id.lunchTitle
+                            "dinner" -> R.id.dinnerTitle
+                            else -> return@launch
+                        }
+
+                        val timeId = when(mealType) {
+                            "breakfast" -> R.id.breakfastTime
+                            "lunch" -> R.id.lunchTime
+                            "dinner" -> R.id.dinnerTime
+                            else -> return@launch
+                        }
+
+                        val imageId = when(mealType) {
+                            "breakfast" -> R.id.breakfastImage
+                            "lunch" -> R.id.lunchImage
+                            "dinner" -> R.id.dinnerImage
+                            else -> return@launch
+                        }
+
+                        // Update title
+                        findViewById<TextView>(titleId)?.text = recipe.title
+
+                        // Update time
+                        findViewById<TextView>(timeId)?.text = "Prep: ${recipe.prep_time} min | Cook: ${recipe.cook_time} min"
+
+                        // Update image
+                        findViewById<ImageView>(imageId)?.let { imageView ->
+                            if (recipe.image_url != null && recipe.image_url.isNotEmpty()) {
+                                Glide.with(this@ActivityHome)
+                                    .load(recipe.image_url)
+                                    .placeholder(android.R.drawable.ic_menu_gallery)
+                                    .error(android.R.drawable.ic_menu_gallery)
+                                    .into(imageView)
+                            } else {
+                                imageView.setImageResource(android.R.drawable.ic_menu_gallery)
+                            }
+                        }
+                    } else {
+                        Log.e(TAG, "Recipe data is null for ${mealPlan.recipe_id}")
+                        showBasicMealInfo(mealPlan, mealType)
+                    }
+                } else {
+                    Log.e(TAG, "Failed to fetch recipe details for ${mealPlan.recipe_id}")
+                    showBasicMealInfo(mealPlan, mealType)
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Exception fetching recipe details", e)
+                showBasicMealInfo(mealPlan, mealType)
+            }
+        }
+    }
+
+    private fun showBasicMealInfo(mealPlan: MealPlan, mealType: String) {
+        val titleId = when(mealType) {
+            "breakfast" -> R.id.breakfastTitle
+            "lunch" -> R.id.lunchTitle
+            "dinner" -> R.id.dinnerTitle
+            else -> return
+        }
+
+        val timeId = when(mealType) {
+            "breakfast" -> R.id.breakfastTime
+            "lunch" -> R.id.lunchTime
+            "dinner" -> R.id.dinnerTime
+            else -> return
+        }
+
+        findViewById<TextView>(titleId)?.text = mealPlan.recipe_name
+        findViewById<TextView>(timeId)?.text = "Tap to view details"
+    }
+
+    private fun showEmptyMeal(mealType: String) {
+        val titleId = when(mealType) {
+            "breakfast" -> R.id.breakfastTitle
+            "lunch" -> R.id.lunchTitle
+            "dinner" -> R.id.dinnerTitle
+            else -> return
+        }
+
+        val timeId = when(mealType) {
+            "breakfast" -> R.id.breakfastTime
+            "lunch" -> R.id.lunchTime
+            "dinner" -> R.id.dinnerTime
+            else -> return
+        }
+
+        val imageId = when(mealType) {
+            "breakfast" -> R.id.breakfastImage
+            "lunch" -> R.id.lunchImage
+            "dinner" -> R.id.dinnerImage
+            else -> return
+        }
+
+        findViewById<TextView>(titleId)?.text = "Add a meal"
+        findViewById<TextView>(timeId)?.text = "Tap + to plan your ${mealType}"
+        findViewById<ImageView>(imageId)?.setImageResource(android.R.drawable.ic_menu_gallery)
+    }
+
     private fun showEmptyMealsUI() {
-        findViewById<TextView>(R.id.breakfastTitle)?.text = "Add a meal"
-        findViewById<TextView>(R.id.lunchTitle)?.text = "Add a meal"
-        findViewById<TextView>(R.id.dinnerTitle)?.text = "Add a meal"
+        showEmptyMeal("breakfast")
+        showEmptyMeal("lunch")
+        showEmptyMeal("dinner")
     }
 
     private fun loadRecipeSuggestions() {
@@ -285,6 +413,94 @@ class ActivityHome : AppCompatActivity() {
         findViewById<TextView>(R.id.suggestedRecipeTitle1)?.text = "No suggestions"
         findViewById<TextView>(R.id.suggestedRecipeTitle2)?.text = "Add items to pantry"
         findViewById<TextView>(R.id.suggestedRecipeTitle3)?.text = "to see recipes"
+    }
+
+    /**
+     * Set click listener for a meal card that has a recipe
+     * Clicking will navigate to recipe details
+     */
+    private fun setMealClickListener(mealPlan: MealPlan, mealType: String) {
+        val titleId = when(mealType) {
+            "breakfast" -> R.id.breakfastTitle
+            "lunch" -> R.id.lunchTitle
+            "dinner" -> R.id.dinnerTitle
+            else -> return
+        }
+
+        val timeId = when(mealType) {
+            "breakfast" -> R.id.breakfastTime
+            "lunch" -> R.id.lunchTime
+            "dinner" -> R.id.dinnerTime
+            else -> return
+        }
+
+        val imageId = when(mealType) {
+            "breakfast" -> R.id.breakfastImage
+            "lunch" -> R.id.lunchImage
+            "dinner" -> R.id.dinnerImage
+            else -> return
+        }
+
+        val clickListener = View.OnClickListener {
+            try {
+                Log.d(TAG, "Opening recipe details for: ${mealPlan.recipe_name}")
+                val intent = Intent(this, ActivityRecipeDetails::class.java)
+                intent.putExtra("RECIPE_ID", mealPlan.recipe_id)
+                intent.putExtra("RECIPE_NAME", mealPlan.recipe_name)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Log.e(TAG, "Error opening recipe details", e)
+                Toast.makeText(this, "Unable to open recipe details", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        findViewById<TextView>(titleId)?.setOnClickListener(clickListener)
+        findViewById<TextView>(timeId)?.setOnClickListener(clickListener)
+        findViewById<ImageView>(imageId)?.setOnClickListener(clickListener)
+    }
+
+    /**
+     * Set click listener for an empty meal card
+     * Clicking will navigate to meal planner
+     */
+    private fun setEmptyMealClickListener(mealType: String) {
+        val titleId = when(mealType) {
+            "breakfast" -> R.id.breakfastTitle
+            "lunch" -> R.id.lunchTitle
+            "dinner" -> R.id.dinnerTitle
+            else -> return
+        }
+
+        val timeId = when(mealType) {
+            "breakfast" -> R.id.breakfastTime
+            "lunch" -> R.id.lunchTime
+            "dinner" -> R.id.dinnerTime
+            else -> return
+        }
+
+        val imageId = when(mealType) {
+            "breakfast" -> R.id.breakfastImage
+            "lunch" -> R.id.lunchImage
+            "dinner" -> R.id.dinnerImage
+            else -> return
+        }
+
+        val clickListener = View.OnClickListener {
+            try {
+                Log.d(TAG, "Opening meal planner for: $mealType")
+                val intent = Intent(this, ActivityMealPlanner::class.java)
+                intent.putExtra("MEAL_TYPE", mealType)
+                intent.putExtra("SELECT_DATE", SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()))
+                startActivity(intent)
+            } catch (e: Exception) {
+                Log.e(TAG, "Error opening meal planner", e)
+                Toast.makeText(this, "Unable to open meal planner", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        findViewById<TextView>(titleId)?.setOnClickListener(clickListener)
+        findViewById<TextView>(timeId)?.setOnClickListener(clickListener)
+        findViewById<ImageView>(imageId)?.setOnClickListener(clickListener)
     }
 }
 
