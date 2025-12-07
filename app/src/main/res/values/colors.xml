@@ -29,6 +29,15 @@
     <color name="success">#388E3C</color>
     <color name="success_light">#E8F5E9</color>
     <color name="warning">#F57C00</color>
+    <color name="warning_light">#FFF3E0</color>
+
+    <!-- Recipe Suggestion Status Colors (theme-appropriate) -->
+    <color name="recipe_can_make">#19e619</color>
+    <color name="recipe_can_make_bg">#E8F9E8</color>
+    <color name="recipe_partial">#F57C00</color>
+    <color name="recipe_partial_bg">#FFF3E0</color>
+    <color name="recipe_need_all">#666666</color>
+    <color name="recipe_need_all_bg">#F5F5F5</color>
 
     <!-- AI Assistant Orange Theme -->
     <color name="assistant_primary">#ec7f13</color>

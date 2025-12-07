@@ -389,15 +389,33 @@ class ActivityHome : AppCompatActivity() {
         // Update status with ingredient count
         findViewById<TextView>(statusId)?.apply {
             if (suggestion.can_make_now) {
-                text = "You have all ${suggestion.total_ingredients} ingredients!"
-                setTextColor(getColor(R.color.primary))
+                text = "✓ You have all ingredients!"
+                setTextColor(getColor(R.color.recipe_can_make))
             } else if (suggestion.matched_ingredients > 0) {
-                text = "Need ${suggestion.missing_ingredients_count} more (${suggestion.total_ingredients} total)"
-                setTextColor(getColor(android.R.color.holo_orange_dark))
+                text = "Need ${suggestion.missing_ingredients_count} more ingredient${if (suggestion.missing_ingredients_count != 1) "s" else ""}"
+                setTextColor(getColor(R.color.recipe_partial))
             } else {
                 // Empty pantry - show total ingredients needed
-                text = "Needs ${suggestion.total_ingredients} ingredients"
-                setTextColor(getColor(android.R.color.holo_red_light))
+                text = "Needs ${suggestion.total_ingredients} ingredient${if (suggestion.total_ingredients != 1) "s" else ""}"
+                setTextColor(getColor(R.color.recipe_need_all))
+            }
+        }
+
+        // Add subtle background tint to highlight pantry-based feature
+        findViewById<CardView>(cardId)?.apply {
+            when {
+                suggestion.can_make_now -> {
+                    // Green tint for recipes you can make now
+                    setCardBackgroundColor(getColor(R.color.recipe_can_make_bg))
+                }
+                suggestion.matched_ingredients > 0 -> {
+                    // Orange tint for recipes with some ingredients
+                    setCardBackgroundColor(getColor(R.color.recipe_partial_bg))
+                }
+                else -> {
+                    // Neutral/gray tint for recipes needing all ingredients
+                    setCardBackgroundColor(getColor(R.color.recipe_need_all_bg))
+                }
             }
         }
 
