@@ -3,10 +3,12 @@ package com.example.smartmeal.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.smartmeal.R
 import com.example.smartmeal.data.api.RecipeDetail
 
@@ -32,6 +34,7 @@ class RecipeListAdapter(
         private val onRecipeClick: (RecipeDetail) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
 
+        private val recipeImage: ImageView = itemView.findViewById(R.id.recipeImage)
         private val recipeTitle: TextView = itemView.findViewById(R.id.recipeTitle)
         private val recipeDescription: TextView = itemView.findViewById(R.id.recipeDescription)
         private val recipeTime: TextView = itemView.findViewById(R.id.recipeTime)
@@ -41,6 +44,14 @@ class RecipeListAdapter(
         fun bind(recipe: RecipeDetail) {
             recipeTitle.text = recipe.title
             recipeDescription.text = recipe.description ?: "Delicious recipe"
+
+            // Load recipe image with Glide
+            Glide.with(itemView.context)
+                .load(recipe.image_url)
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_launcher_foreground)
+                .centerCrop()
+                .into(recipeImage)
 
             // Calculate total time
             val totalTime = recipe.prep_time + recipe.cook_time

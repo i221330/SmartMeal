@@ -16,8 +16,22 @@ A comprehensive Android application for recipe management, meal planning, pantry
 1. Install and start XAMPP
 2. Start Apache and MySQL
 3. Import backend/database/schema.sql to MySQL
-4. Place backend folder in htdocs/smartmeal/
-5. Access at http://localhost/smartmeal/backend/api/
+4. Import backend/database/recipe_seed_data_with_images.sql for recipes with images
+5. Place backend folder in htdocs/smartmeal/
+6. Access at http://localhost/smartmeal/backend/api/
+```
+
+### Adding Recipe Images
+```bash
+# Quick setup (recommended):
+1. Open phpMyAdmin (http://localhost/phpmyadmin)
+2. Select smartmeal_db database
+3. Import: backend/database/recipe_seed_data_with_images.sql
+
+# Or use the automated script:
+./setup_images.sh
+
+# For detailed options, see IMAGE_INTEGRATION_GUIDE.md
 ```
 
 ### Running the App
@@ -33,10 +47,11 @@ A comprehensive Android application for recipe management, meal planning, pantry
 ✅ Pantry management with autocomplete  
 ✅ Smart shopping list with auto-population  
 ✅ Weekly meal planner  
-✅ 30+ pre-loaded recipes  
+✅ 30+ pre-loaded recipes with images  
 ✅ Pantry-based recipe suggestions (Wow Factor)  
 ✅ Offline support with local storage  
 ✅ Data sync with PHP/MySQL backend  
+✅ Beautiful food photography from Unsplash  
 
 ## Architecture
 - **Pattern**: MVVM (Model-View-ViewModel)
